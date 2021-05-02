@@ -7,18 +7,15 @@ export const OnboardContainer = ({
   ImageItem,
   bottomHeight,
   BottomItem,
-}: OnboardContainerProps) => {
-  console.log(bottomHeight);
-  return (
-    <Container bottomContainerHeight={bottomHeight}>
-      <ImageContainer
-        style={{ height: Sizes.SCREEN_HEIGHT * (1 - bottomHeight) }}
-      >
-        <ImageItem />
-      </ImageContainer>
-      <BottomContainer style={{ height: Sizes.SCREEN_HEIGHT * bottomHeight }}>
-        <BottomItem />
-      </BottomContainer>
-    </Container>
-  );
-};
+}: OnboardContainerProps) => (
+  <Container bottomContainerHeight={bottomHeight}>
+    <ImageContainer
+      style={{ height: Sizes.SCREEN_HEIGHT * (1 - bottomHeight) }}
+    >
+      <ImageItem />
+    </ImageContainer>
+    <BottomContainer style={{ height: Sizes.SCREEN_HEIGHT * bottomHeight }}>
+      <BottomItem />
+    </BottomContainer>
+  </Container>
+);
