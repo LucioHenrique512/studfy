@@ -4,13 +4,20 @@ import { Image } from "react-native";
 import { SYText, SYButton } from "../../../../components";
 import { fontScale } from "../../../../commons/sizes";
 import { Container, ButtonsContainer, TextContainer } from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
 export const WellcomeScreen = () => {
+  const { navigate } = useNavigation();
+
   const ImagemItem = () => {
     return <Image source={require("../../../../assets/logo.png")} />;
   };
 
   const BottomItem = () => {
+    const handleLoginPress = () => {
+      navigate("login");
+    };
+
     return (
       <Container>
         <TextContainer>
@@ -29,7 +36,12 @@ export const WellcomeScreen = () => {
         </TextContainer>
         <ButtonsContainer>
           <SYButton text="REGISTRAR" marginBottom={fontScale(25)} />
-          <SYButton text="ENTRAR" linkStyle primaryLinkStyle />
+          <SYButton
+            text="ENTRAR"
+            linkStyle
+            primaryLinkStyle
+            onPress={handleLoginPress}
+          />
         </ButtonsContainer>
       </Container>
     );

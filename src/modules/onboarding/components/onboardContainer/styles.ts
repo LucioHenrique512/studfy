@@ -8,6 +8,7 @@ const BOTTOM_CONTAINER_HEIGHT = 0.4;
 export const ImageContainer = styled.View`
   justify-content: center;
   align-items: center;
+  background: ${({ theme }) => theme.background};
 `;
 
 export const BottomContainer = styled.View`
@@ -26,4 +27,5 @@ interface ContainerProps {
 export const Container = styled.View<ContainerProps>`
   width: ${Sizes.SCREEN_WIDTH}px;
   height: ${Sizes.SCREEN_HEIGHT}px;
+  background: ${({ theme }) => theme.background};
 `;

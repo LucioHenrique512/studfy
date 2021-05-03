@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components/native";
+import styled, { useTheme } from "styled-components/native";
 import { fontScale, verticalScale } from "../../commons/sizes";
 
 interface TextInputProps {
@@ -11,9 +11,14 @@ interface TextInputProps {
 }
 
 export const SYTextInput = (props: TextInputProps) => {
+  const { secondary_text } = useTheme();
   return (
     <Container {...props}>
-      <StyledTextInput placeholder={props.placeholder} value={props.value} />
+      <StyledTextInput
+        placeholderTextColor={secondary_text}
+        placeholder={props.placeholder}
+        value={props.value}
+      />
     </Container>
   );
 };

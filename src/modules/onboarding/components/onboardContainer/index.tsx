@@ -14,7 +14,15 @@ export const OnboardContainer = ({
     >
       <ImageItem />
     </ImageContainer>
-    <BottomContainer style={{ height: Sizes.SCREEN_HEIGHT * bottomHeight }}>
+    <BottomContainer
+      style={{
+        height: Sizes.SCREEN_HEIGHT * bottomHeight,
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+      }}
+    >
       <BottomItem />
     </BottomContainer>
   </Container>
