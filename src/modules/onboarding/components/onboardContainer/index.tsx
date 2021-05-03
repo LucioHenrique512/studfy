@@ -2,13 +2,18 @@ import React from "react";
 import { Container, ImageContainer, BottomContainer, Image } from "./styles";
 import { OnboardContainerProps } from "../../types";
 import { Sizes } from "../../../../commons";
+import { Platform } from "react-native";
 
 export const OnboardContainer = ({
   ImageItem,
   bottomHeight,
   BottomItem,
 }: OnboardContainerProps) => (
-  <Container bottomContainerHeight={bottomHeight}>
+  <Container
+    bottomContainerHeight={bottomHeight}
+    behavior={"position"}
+    keyboardVerticalOffset={Platform.OS === "ios" ? 0 : -70}
+  >
     <ImageContainer
       style={{ height: Sizes.SCREEN_HEIGHT * (1 - bottomHeight) }}
     >

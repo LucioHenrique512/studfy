@@ -1,12 +1,9 @@
 import React from "react";
 import { OnboardContainer } from "../../components/onboardContainer";
-import { Image } from "react-native";
+import { Image, View } from "react-native";
 import { SYText, SYButton, SYTextInput } from "../../../../components";
-import {
-  fontScale,
-  horizontalScale,
-  verticalScale,
-} from "../../../../commons/sizes";
+import { fontScale, horizontalScale } from "../../../../commons/sizes";
+import { SYHeader } from "../../../../components";
 import {
   Container,
   ButtonsContainer,
@@ -15,12 +12,20 @@ import {
 } from "./styles";
 
 export const LoginScreen = () => {
-  const ImagemItem = () => {
+  const TopContainer = () => {
     return (
-      <Image
-        style={{ width: horizontalScale(150), resizeMode: "contain" }}
-        source={require("../../../../assets/logo.png")}
-      />
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <SYHeader title="Login" />
+        <Image
+          style={{ width: horizontalScale(150), resizeMode: "contain" }}
+          source={require("../../../../assets/logo.png")}
+        />
+      </View>
     );
   };
 
@@ -61,7 +66,7 @@ export const LoginScreen = () => {
   return (
     <OnboardContainer
       bottomHeight={0.6}
-      ImageItem={ImagemItem}
+      ImageItem={TopContainer}
       BottomItem={BottomItem}
     />
   );
