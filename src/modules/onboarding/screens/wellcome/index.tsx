@@ -18,6 +18,10 @@ export const WellcomeScreen = () => {
       navigate("login");
     };
 
+    const handleSignupPress = () => {
+      navigate("signup");
+    };
+
     return (
       <Container>
         <TextContainer>
@@ -31,11 +35,15 @@ export const WellcomeScreen = () => {
             text="o seu companheiro nos estudos"
             fontWeight="500"
             secondary
-            marginBottom={fontScale(30)}
+            marginBottom={fontScale(10)}
           />
         </TextContainer>
         <ButtonsContainer>
-          <SYButton text="REGISTRAR" marginBottom={fontScale(25)} />
+          <SYButton
+            text="REGISTRAR"
+            marginBottom={fontScale(25)}
+            onPress={handleSignupPress}
+          />
           <SYButton
             text="ENTRAR"
             linkStyle

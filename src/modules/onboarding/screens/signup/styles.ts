@@ -10,6 +10,8 @@ export const Container = styled.View`
 
 export const TextContainer = styled.View``;
 
+export const TextFieldsContainer = styled.View``;
+
 export const ButtonsContainer = styled.View`
-  margin-bottom: ${fontScale(35)}px;
+  margin-bottom: ${fontScale(25)}px;
 `;
