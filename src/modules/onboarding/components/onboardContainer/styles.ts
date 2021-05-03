@@ -11,7 +11,8 @@ export const ImageContainer = styled.View`
 `;
 
 export const BottomContainer = styled.View`
-  border-radius: ${Sizes.fontScale(25)}px;
+  border-top-left-radius: ${Sizes.fontScale(25)}px;
+  border-top-right-radius: ${Sizes.fontScale(25)}px;
   background: ${({ theme }) => theme.foreground};
   elevation: 50;
 `;
