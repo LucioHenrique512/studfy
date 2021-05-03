@@ -1,5 +1,6 @@
 import React from "react";
-import styled from "styled-components/native";
+import { ReturnKeyTypeOptions } from "react-native";
+import styled, { useTheme } from "styled-components/native";
 import { fontScale, verticalScale } from "../../commons/sizes";
 
 interface TextInputProps {
@@ -8,12 +9,22 @@ interface TextInputProps {
   marginTop?: number;
   onChange?: any;
   value?: string;
+  secureTextEntry?: boolean;
+  returnKeyType?: ReturnKeyTypeOptions;
 }
 
 export const SYTextInput = (props: TextInputProps) => {
+  const { secondary_text } = useTheme();
   return (
     <Container {...props}>
-      <StyledTextInput placeholder={props.placeholder} value={props.value} />
+      <StyledTextInput
+        placeholderTextColor={secondary_text}
+        placeholder={props.placeholder}
+        value={props.value}
+        autoCompleteType="off"
+        secureTextEntry={props.secureTextEntry}
+        returnKeyType={props.returnKeyType}
+      />
     </Container>
   );
 };

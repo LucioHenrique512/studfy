@@ -3,7 +3,7 @@ export type ThemeType = typeof light;
 export const light = {
   primary: "#5740F4",
   secondary: "#65CFF4",
-  background: "#FAFBFE",
+  background: "#F4F4F4",
   foreground: "#FFFFFF",
   white_text: "#FFFFFF",
   primary_text: "#00208F",
