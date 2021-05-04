@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { OnboardContainer } from "../../components/onboardContainer";
 import { Image, View } from "react-native";
 import { SYText, SYButton, SYTextInput } from "../../../../components";
 import { fontScale, horizontalScale } from "../../../../commons/sizes";
 import { SYHeader } from "../../../../components";
+import firebase from "firebase";
+
 import {
   Container,
   ButtonsContainer,
@@ -12,14 +14,12 @@ import {
 } from "./styles";
 
 export const SignupScreen = () => {
+  useEffect(() => {}, []);
+
   const TopContainer = () => {
     return (
       <View>
         <SYHeader title="Registrar" />
-        {/* <Image
-          style={{ width: horizontalScale(10), resizeMode: "contain" }}
-          source={require("../../../../assets/logo.png")}
-        /> */}
       </View>
     );
   };

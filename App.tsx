@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components/native";
 import { dark, light } from "./src/style/themes";
 import { Routes } from "./src";
 import { AppearanceProvider, useColorScheme } from "react-native-appearance";
+import "./src/services/firebase";
 
 export default function App() {
   const scheme = useColorScheme();
