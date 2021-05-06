@@ -45,11 +45,21 @@ export const LoginScreen = () => {
       .catch((error) => {
         setLoading(false);
         console.log(error);
-
-        showToast({
-          type: "error",
-          text1: "Algo deu errado no login, confira os logs",
-        });
+        switch (error.code) {
+          case "auth/wrong-password":
+            showToast({
+              type: "error",
+              text1: "Usuário ou senha incorretos.",
+            });
+            break;
+          default:
+            showToast({
+              type: "error",
+              text1:
+                "Algo de errado ocorreu com o login, entre em contato com o suporte!",
+            });
+            break;
+        }
       });
   };
 

@@ -6,12 +6,29 @@ interface loginUserProps {
 }
 
 export const authenticateUser = ({ email, password }: loginUserProps) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
+    const dbRef = firebase.database().ref();
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((response) => {
-        resolve(response);
+        const userId: string = response.user?.uid || "";
+
+        dbRef
+          .child("users")
+          .child(userId)
+          .get()
+          .then((snapshot) => {
+            const databaseResponse = snapshot.val();
+            const customResponse = {
+              name: databaseResponse.name,
+              credential: response.credential,
+              uid: userId,
+              email: response.user?.email,
+            };
+            resolve(customResponse);
+          })
+          .catch((error) => reject(error));
       })
       .catch((error) => {
         reject(error);
@@ -30,6 +47,11 @@ export const createUser = ({ email, password, name }: createUserProps) => {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
+        firebase
+          .database()
+          .ref(`users/${userCredential.user?.uid}`)
+          .set({ name, email })
+          .catch((error) => reject(error));
         resolve(userCredential);
       })
       .catch((error) => {
