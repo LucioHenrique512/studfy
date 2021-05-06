@@ -16,6 +16,8 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import firebase from "firebase";
 import { useNavigation } from "@react-navigation/core";
+import { authenticateUser } from "../../../../helpers/firebase";
+import { showToast } from "../../../../utils/toastNoatification";
 
 export const LoginScreen = () => {
   const { login: loginState } = useSelector(
@@ -32,20 +34,22 @@ export const LoginScreen = () => {
   const handleSubmitForm = (value: any) => {
     const email: string = value.email;
     const password: string = value.password;
-
     setLoading(true);
 
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
+    authenticateUser({ email, password })
       .then((response) => {
         setLoading(false);
-        navigate("wellcome");
-        console.log("REsposta do fb ->", response);
+        showToast({ type: "info", text1: "Deu certo o login" });
+        console.log(response);
       })
       .catch((error) => {
         setLoading(false);
-        console.log("ERRO do fb", error);
+        console.log(error);
+
+        showToast({
+          type: "error",
+          text1: "Algo deu errado no login, confira os logs",
+        });
       });
   };
 

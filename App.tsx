@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { GlobalContainer } from "./src/style/globalStyle";
 import { ThemeProvider } from "styled-components/native";
 import { dark, light } from "./src/style/themes";
@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./src/redux";
 import "./src/services/firebase";
+import Toast from "react-native-toast-message";
 
 export default function App() {
   const scheme = useColorScheme();
@@ -19,6 +20,7 @@ export default function App() {
           <ThemeProvider theme={scheme === "dark" ? dark : light}>
             <GlobalContainer>
               <Routes />
+              <Toast ref={(ref) => Toast.setRef(ref)} />
             </GlobalContainer>
           </ThemeProvider>
         </PersistGate>

@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { SYText, SYButton, SYTextInput } from "../../../../components";
 import { fontScale } from "../../../../commons/sizes";
 import { SYHeader } from "../../../../components";
-import firebase from "firebase";
+import { createUser } from "../../../../helpers/firebase";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
@@ -15,6 +15,7 @@ import {
   TextFieldsContainer,
 } from "./styles";
 import { useNavigation } from "@react-navigation/core";
+import { showToast } from "../../../../utils/toastNoatification";
 
 const initialValue = {
   name: "",
@@ -49,21 +50,24 @@ export const SignupScreen = () => {
     );
   };
 
-  const handleSubmitForm = (value: typeof initialValue) => {
+  const handleSubmitForm = ({ email, password, name }: typeof initialValue) => {
     setLoading(true);
-    console.log(value);
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(value.email, value.password)
-      .then((userCredential) => {
+    createUser({ email, password, name })
+      .then((response) => {
         setLoading(false);
-        console.log("CADASTRO DE USER ->", userCredential);
-        navigate("wellcome");
+        showToast({
+          type: "success",
+          text1: "Cadastro realizado com sucesso.",
+          text2: "Favor realize o login para começar. 😀",
+        });
+        navigate("login");
       })
       .catch((error) => {
         setLoading(false);
-        console.log(error);
+        showToast({ type: "error", text1: "Ocorreu um erro no cadastro. 😥" });
       });
+
+    //console.log(value);
   };
 
   const BottomItem = () => {
