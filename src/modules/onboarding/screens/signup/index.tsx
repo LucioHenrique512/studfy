@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { OnboardContainer } from "../../components/onboardContainer";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 import { SYText, SYButton, SYTextInput } from "../../../../components";
-import { fontScale, horizontalScale } from "../../../../commons/sizes";
+import { fontScale } from "../../../../commons/sizes";
 import { SYHeader } from "../../../../components";
 import firebase from "firebase";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 import {
   Container,
@@ -12,9 +14,32 @@ import {
   TextContainer,
   TextFieldsContainer,
 } from "./styles";
+import { useNavigation } from "@react-navigation/core";
+
+const initialValue = {
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
+
+const formValidationSchema = Yup.object().shape({
+  name: Yup.string().required("Favor insira um nome."),
+  email: Yup.string()
+    .required("Favor insira um email.")
+    .email("Inssira um email válido"),
+  password: Yup.string()
+    .required("Favor insira uma senha.")
+    .min(6, "No minimo 6 characteres."),
+  confirmPassword: Yup.string()
+    .required("Favor confirme a sua senha.")
+    .oneOf([Yup.ref("password"), null], "A senha não conicide."),
+});
 
 export const SignupScreen = () => {
-  useEffect(() => {}, []);
+  //useEffect(() => {}, []);
+  const [loading, setLoading] = useState(false);
+  const { navigate } = useNavigation();
 
   const TopContainer = () => {
     return (
@@ -24,44 +49,117 @@ export const SignupScreen = () => {
     );
   };
 
+  const handleSubmitForm = (value: typeof initialValue) => {
+    setLoading(true);
+    console.log(value);
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(value.email, value.password)
+      .then((userCredential) => {
+        setLoading(false);
+        console.log("CADASTRO DE USER ->", userCredential);
+        navigate("wellcome");
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
+  };
+
   const BottomItem = () => {
     return (
       <Container>
-        <TextContainer>
-          <SYText
-            text="Seja bem vindo"
-            size={fontScale(25)}
-            fontWeight="bold"
-            marginBottom={fontScale(5)}
-          />
-          <SYText
-            text="favor realize o cadastro a baixo"
-            fontWeight="500"
-            secondary
-            marginBottom={fontScale(30)}
-          />
-        </TextContainer>
-        <TextFieldsContainer>
-          <SYTextInput
-            placeholder="Nome Completo"
-            marginBottom={fontScale(20)}
-          />
-          <SYTextInput placeholder="Email" marginBottom={fontScale(20)} />
-          <SYTextInput placeholder="Senha" marginBottom={fontScale(20)} />
-          <SYTextInput
-            placeholder="Confirmar senha"
-            marginBottom={fontScale(20)}
-          />
-        </TextFieldsContainer>
-        <ButtonsContainer>
-          <SYButton text="ENTRAR" marginBottom={fontScale(25)} />
-          <SYButton
-            text="Já tenho conta"
-            linkStyle
-            textSize={fontScale(12)}
-            underline
-          />
-        </ButtonsContainer>
+        <Formik
+          initialValues={initialValue}
+          onSubmit={(value) => handleSubmitForm(value)}
+          validationSchema={formValidationSchema}
+        >
+          {({
+            handleBlur,
+            handleChange,
+            values,
+            submitForm,
+            errors,
+            touched,
+          }) => (
+            <>
+              <TextContainer>
+                <SYText
+                  text="Seja bem vindo"
+                  size={fontScale(25)}
+                  fontWeight="bold"
+                  marginBottom={fontScale(5)}
+                />
+                <SYText
+                  text="favor realize o cadastro a baixo"
+                  fontWeight="500"
+                  secondary
+                  marginBottom={fontScale(30)}
+                />
+              </TextContainer>
+              <TextFieldsContainer>
+                <SYTextInput
+                  placeholder="Nome Completo"
+                  onChangeText={handleChange("name")}
+                  onBlur={handleBlur("name")}
+                  value={values.name}
+                  editable={!loading}
+                  error={touched.name && !!errors.name}
+                  message={touched.name && !!errors.name ? errors.name : ""}
+                />
+                <SYTextInput
+                  placeholder="Email"
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  value={values.email}
+                  editable={!loading}
+                  error={touched.email && !!errors.email}
+                  message={touched.email && !!errors.email ? errors.email : ""}
+                />
+                <SYTextInput
+                  placeholder="Senha"
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  value={values.password}
+                  editable={!loading}
+                  error={touched.password && !!errors.password}
+                  message={
+                    touched.password && !!errors.password ? errors.password : ""
+                  }
+                />
+                <SYTextInput
+                  placeholder="Confirmar senha"
+                  onChangeText={handleChange("confirmPassword")}
+                  onBlur={handleBlur("confirmPassword")}
+                  marginBottom={fontScale(20)}
+                  value={values.confirmPassword}
+                  editable={!loading}
+                  error={touched.confirmPassword && !!errors.confirmPassword}
+                  message={
+                    touched.confirmPassword && !!errors.confirmPassword
+                      ? errors.confirmPassword
+                      : ""
+                  }
+                />
+              </TextFieldsContainer>
+              <ButtonsContainer>
+                <SYButton
+                  text="ENTRAR"
+                  marginBottom={fontScale(25)}
+                  onPress={submitForm}
+                  loading={loading}
+                />
+                <SYButton
+                  text="Já tenho conta"
+                  linkStyle
+                  textSize={fontScale(12)}
+                  underline
+                  onPress={() => navigate("login")}
+                />
+              </ButtonsContainer>
+            </>
+          )}
+        </Formik>
       </Container>
     );
   };

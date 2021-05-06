@@ -12,7 +12,7 @@ export const OnboardContainer = ({
   <Container
     bottomContainerHeight={bottomHeight}
     behavior={"position"}
-    keyboardVerticalOffset={Platform.OS === "ios" ? 0 : -70}
+    keyboardVerticalOffset={Platform.OS === "ios" ? -15 : -70}
   >
     <ImageContainer
       style={{ height: Sizes.SCREEN_HEIGHT * (1 - bottomHeight) }}
