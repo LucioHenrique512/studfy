@@ -114,6 +114,7 @@ export const LoginScreen = () => {
                   onBlur={handleBlur("email")}
                   value={values.email}
                   editable={!loading}
+                  keyboardType={"email-address"}
                   error={touched.email && !!errors.email}
                   message={touched.email && !!errors.email ? errors.email : ""}
                 />
@@ -124,6 +125,7 @@ export const LoginScreen = () => {
                   onBlur={handleBlur("password")}
                   value={values.password}
                   secureTextEntry
+                  keyboardType={"visible-password"}
                   editable={!loading}
                   error={touched.password && !!errors.password}
                   message={

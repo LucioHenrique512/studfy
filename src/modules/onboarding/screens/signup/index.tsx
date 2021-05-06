@@ -113,6 +113,7 @@ export const SignupScreen = () => {
                   onBlur={handleBlur("email")}
                   value={values.email}
                   editable={!loading}
+                  keyboardType={"email-address"}
                   error={touched.email && !!errors.email}
                   message={touched.email && !!errors.email ? errors.email : ""}
                 />
@@ -121,6 +122,8 @@ export const SignupScreen = () => {
                   onChangeText={handleChange("password")}
                   onBlur={handleBlur("password")}
                   value={values.password}
+                  secureTextEntry
+                  keyboardType={"visible-password"}
                   editable={!loading}
                   error={touched.password && !!errors.password}
                   message={
@@ -131,9 +134,11 @@ export const SignupScreen = () => {
                   placeholder="Confirmar senha"
                   onChangeText={handleChange("confirmPassword")}
                   onBlur={handleBlur("confirmPassword")}
-                  marginBottom={fontScale(20)}
+                  marginBottom={fontScale(5)}
                   value={values.confirmPassword}
                   editable={!loading}
+                  secureTextEntry
+                  keyboardType={"visible-password"}
                   error={touched.confirmPassword && !!errors.confirmPassword}
                   message={
                     touched.confirmPassword && !!errors.confirmPassword

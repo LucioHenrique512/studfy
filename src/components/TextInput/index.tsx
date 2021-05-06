@@ -1,8 +1,12 @@
 import React from "react";
-import { ReturnKeyTypeOptions } from "react-native";
+import {
+  ReturnKeyTypeOptions,
+  KeyboardTypeOptions,
+  Platform,
+} from "react-native";
 import styled, { useTheme } from "styled-components/native";
 import { fontScale, verticalScale } from "../../commons/sizes";
-import { SYText } from "../index";
+import { SYText } from "../../components";
 import { Sizes } from "../../commons";
 
 interface TextInputProps {
@@ -17,6 +21,7 @@ interface TextInputProps {
   editable?: boolean;
   message?: string;
   error?: boolean;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 export const SYTextInput = (props: TextInputProps) => {
@@ -39,6 +44,7 @@ export const SYTextInput = (props: TextInputProps) => {
           onChangeText={props.onChangeText}
           secureTextEntry={props.secureTextEntry}
           returnKeyType={props.returnKeyType}
+          keyboardType={props.keyboardType}
           onBlur={props.onBlur}
           editable={props.editable}
           style={{ color: text_input_text_color }}
@@ -47,8 +53,12 @@ export const SYTextInput = (props: TextInputProps) => {
       <SYText
         text={props.message}
         size={Sizes.fontScale(13)}
-        marginTop={Sizes.fontScale(2)}
-        marginBottom={Sizes.fontScale(2)}
+        marginTop={
+          Platform.OS === "android" ? Sizes.fontScale(2) : Sizes.fontScale(5)
+        }
+        marginBottom={
+          Platform.OS === "android" ? Sizes.fontScale(2) : Sizes.fontScale(5)
+        }
         fontWeight={"bold"}
         color={props.error ? text_error_color : secondary_text}
       />
