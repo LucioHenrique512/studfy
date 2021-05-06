@@ -6,7 +6,7 @@ import {
 } from "react-native";
 import styled, { useTheme } from "styled-components/native";
 import { fontScale, verticalScale } from "../../commons/sizes";
-import { SYText } from "../../components";
+import { SYText } from "../text";
 import { Sizes } from "../../commons";
 
 interface TextInputProps {
