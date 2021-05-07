@@ -1,4 +1,6 @@
+import { Platform } from "react-native";
 import Toast, { ToastPosition } from "react-native-toast-message";
+import { Sizes } from "../commons";
 
 interface Options {
   type: "success" | "error" | "info";
@@ -21,7 +23,10 @@ export const showToast = (options: Options) =>
     visibilityTime: 4000,
     position: "top",
     autoHide: true,
-    topOffset: 30,
+    topOffset:
+      Platform.OS === "android"
+        ? Sizes.horizontalScale(60)
+        : Sizes.horizontalScale(40),
     bottomOffset: 40,
   });
 

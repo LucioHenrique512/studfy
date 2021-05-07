@@ -10,26 +10,22 @@ import {
   TextContainer,
   TextFieldsContainer,
 } from "./styles";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux/types";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import firebase from "firebase";
 import { useNavigation } from "@react-navigation/core";
 import { authenticateUser } from "../../../../helpers/firebase";
 import { showToast } from "../../../../utils/toastNoatification";
+import { useDispatch } from "react-redux";
+import {
+  sectionAuthenticateUser,
+  sectionLogoutUser,
+} from "../../../../redux/section/actions";
 
 export const LoginScreen = () => {
-  const { login: loginState } = useSelector(
-    (state: RootState) => state.onboarding
-  );
-
   const [loading, setLoading] = useState(false);
   const { navigate } = useNavigation();
 
-  // const dispatch = useDispatch();
-
-  // const { email, password } = loginState;
+  const dispatch = useDispatch();
 
   const handleSubmitForm = (value: any) => {
     const email: string = value.email;
@@ -39,12 +35,14 @@ export const LoginScreen = () => {
     authenticateUser({ email, password })
       .then((response) => {
         setLoading(false);
-        showToast({ type: "info", text1: "Deu certo o login" });
+        dispatch(sectionAuthenticateUser(response));
+        showToast({ type: "success", text1: "Seja bem vindo! 😊" });
         console.log(response);
       })
       .catch((error) => {
         setLoading(false);
         console.log(error);
+        dispatch(sectionLogoutUser());
         switch (error.code) {
           case "auth/wrong-password":
             showToast({

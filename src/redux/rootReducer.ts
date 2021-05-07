@@ -1,4 +1,4 @@
 import { combineReducers } from "redux";
-import onboarding from "./onboarding/reducer";
+import section from "./section/reducer";
 
-export default combineReducers({ onboarding });
+export default combineReducers({ section });

@@ -59,3 +59,5 @@ export const createUser = ({ email, password, name }: createUserProps) => {
       });
   });
 };
+
+export const signoutUser = () => firebase.auth().signOut();
