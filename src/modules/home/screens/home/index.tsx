@@ -5,6 +5,7 @@ import { signoutUser } from "../../../../helpers/firebase";
 import { sectionLogoutUser } from "../../../../redux/section/actions";
 import { showToast } from "../../../../utils/toastNoatification";
 import { Container } from "./styles";
+import { Header } from "../../components";
 
 export const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,8 @@ export const HomeScreen = () => {
 
   return (
     <Container>
-      <SYButton onPress={handleLogout} text={"LOGOUT"} />
+      <Header />
+      {/* <SYButton onPress={handleLogout} text={"LOGOUT"} /> */}
     </Container>
   );
 };

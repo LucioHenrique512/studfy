@@ -3,10 +3,10 @@ import { Sizes } from "../commons";
 import { Platform, StatusBar } from "react-native";
 
 const getPaddingTop = () => {
-  return Platform.OS === "android" ? 25 : 0;
+  return Platform.OS === "android" ? StatusBar.currentHeight : 0;
 };
 
-export const GlobalContainer = styled.SafeAreaView`
+export const GlobalContainer = styled.View`
   width: ${Sizes.SCREEN_WIDTH}px;
   height: ${Sizes.SCREEN_HEIGHT}px;
   background: ${({ theme }) => theme.background};
