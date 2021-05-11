@@ -12,34 +12,43 @@ interface HeaderProps {
 export const Header = ({ children }: HeaderProps) => {
   const { white_text } = useTheme();
   return (
-    <Container style={{ paddingHorizontal: Sizes.horizontalScale(0) }}>
-      <InfoContainer>
-        <UserContainer>
-          <UserPicture
-            source={{ uri: "https://randomuser.me/api/portraits/women/95.jpg" }}
-          />
-          <SYText text="Olá, Fulana" color={white_text} />
-        </UserContainer>
-        <NotificationsButtom>
-          <FontAwesome5
-            name="bell"
-            size={Sizes.fontScale(17)}
-            color={white_text}
-          />
-          <NotifyDot />
-        </NotificationsButtom>
-      </InfoContainer>
-      <CardContainer>{children}</CardContainer>
+    <Container>
+      <ContentContainer>
+        <InfoContainer>
+          <UserContainer>
+            <UserPicture
+              source={{
+                uri: "https://randomuser.me/api/portraits/women/95.jpg",
+              }}
+            />
+            <SYText text="Olá, Fulana" color={white_text} />
+          </UserContainer>
+          <NotificationsButtom>
+            <FontAwesome5
+              name="bell"
+              size={Sizes.fontScale(17)}
+              color={white_text}
+            />
+            <NotifyDot />
+          </NotificationsButtom>
+        </InfoContainer>
+        <CardContainer>{children}</CardContainer>
+      </ContentContainer>
     </Container>
   );
 };
 
 const Container = styled.View`
+  height: ${Sizes.fontScale(198)}px;
+`;
+
+const ContentContainer = styled.View`
   width: ${Sizes.SCREEN_WIDTH}px;
   height: ${Sizes.fontScale(143)}px;
   padding-top: ${Sizes.fontScale(20)}px;
   background: ${({ theme }) => theme.primary};
   align-items: center;
+  position: relative;
 `;
 
 const InfoContainer = styled.View`
@@ -79,7 +88,8 @@ const NotifyDot = styled.View`
 `;
 
 const CardContainer = styled.View`
-  margin-top: ${Sizes.fontScale(25)}px;
   width: ${Sizes.horizontalScale(317)}px;
   height: ${Sizes.horizontalScale(110)}px;
+  position: absolute;
+  bottom: ${Sizes.fontScale(-55)}px;
 `;

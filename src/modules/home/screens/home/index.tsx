@@ -33,7 +33,7 @@ export const HomeScreen = () => {
       <Header>
         <MainCard />
       </Header>
-      {/* <SYButton onPress={handleLogout} text={"LOGOUT"} /> */}
+      <SYButton onPress={handleLogout} text={"LOGOUT"} />
     </Container>
   );
 };

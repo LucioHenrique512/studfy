@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, ViewStyle } from "react-native";
 import styled, { useTheme } from "styled-components/native";
 import { fontScale, horizontalScale, verticalScale } from "../../commons/sizes";
 import { SYText } from "../text";
