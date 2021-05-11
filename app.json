@@ -16,9 +16,13 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "bundleIdentifier": "com.studfy.app",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": false
     },
     "android": {
+      "package": "com.studfy.app",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#F4F4F4"

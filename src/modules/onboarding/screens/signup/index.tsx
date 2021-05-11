@@ -4,7 +4,6 @@ import { View } from "react-native";
 import { SYText, SYButton, SYTextInput } from "../../../../components";
 import { fontScale } from "../../../../commons/sizes";
 import { SYHeader } from "../../../../components";
-import { createUser } from "../../../../helpers/firebase";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
@@ -51,22 +50,6 @@ export const SignupScreen = () => {
   };
 
   const handleSubmitForm = ({ email, password, name }: typeof initialValue) => {
-    setLoading(true);
-    createUser({ email, password, name })
-      .then((response) => {
-        setLoading(false);
-        showToast({
-          type: "success",
-          text1: "Cadastro realizado com sucesso.",
-          text2: "Favor realize o login para começar. 😀",
-        });
-        navigate("login");
-      })
-      .catch((error) => {
-        setLoading(false);
-        showToast({ type: "error", text1: "Ocorreu um erro no cadastro. 😥" });
-      });
-
     //console.log(value);
   };
 

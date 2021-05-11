@@ -18,6 +18,7 @@ interface ButtonProps {
   primaryLinkStyle?: boolean;
   disabled?: boolean;
   loading?: boolean;
+  icon?: JSX.Element;
 }
 
 export const SYButton = (props: ButtonProps) => {
@@ -27,6 +28,8 @@ export const SYButton = (props: ButtonProps) => {
       disabled={props.loading ? props.loading : props.disabled}
       {...props}
     >
+      {props.icon && <IconContainer>{props.icon}</IconContainer>}
+
       {props.loading ? (
         <ActivityIndicator
           color={
@@ -56,6 +59,8 @@ export const SYButton = (props: ButtonProps) => {
 };
 
 const StyledButton = styled.TouchableOpacity<ButtonProps>`
+  overflow: hidden;
+  position: relative;
   flex-direction: row;
   ${({ width }) =>
     width ? `width: ${horizontalScale(width)}px` : `width: 100%`};
@@ -76,4 +81,14 @@ const StyledButton = styled.TouchableOpacity<ButtonProps>`
       : secondary
       ? `${theme.secondary}${disabled ? "90" : ""}`
       : `${theme.primary}${disabled ? "90" : ""}`};
+`;
+
+const IconContainer = styled.View`
+  position: absolute;
+  left: 0;
+  background: rgba(0, 0, 0, 0.082);
+  height: 100%;
+  width: ${verticalScale(47)}px;
+  justify-content: center;
+  align-items: center;
 `;
