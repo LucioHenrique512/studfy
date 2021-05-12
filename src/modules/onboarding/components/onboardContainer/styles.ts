@@ -6,7 +6,6 @@ import { Sizes } from "../../../../commons";
 const BOTTOM_CONTAINER_HEIGHT = 0.4;
 
 export const ImageContainer = styled.View`
-  justify-content: center;
   align-items: center;
   background: ${({ theme }) => theme.background};
 `;

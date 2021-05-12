@@ -4,12 +4,14 @@ import styled from "styled-components/native";
 import { Sizes } from "../../../../commons";
 import { SYText } from "../../../../components";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { UserType } from "../../../../types";
 
 interface HeaderProps {
   children?: JSX.Element;
+  user?: UserType;
 }
 
-export const Header = ({ children }: HeaderProps) => {
+export const Header = ({ children, user }: HeaderProps) => {
   const { white_text } = useTheme();
   return (
     <Container>
@@ -18,10 +20,10 @@ export const Header = ({ children }: HeaderProps) => {
           <UserContainer>
             <UserPicture
               source={{
-                uri: "https://randomuser.me/api/portraits/women/95.jpg",
+                uri: user?.photo,
               }}
             />
-            <SYText text="Olá, Fulana" color={white_text} />
+            <SYText text={`Olá, ${user?.name}`} color={white_text} />
           </UserContainer>
           <NotificationsButtom>
             <FontAwesome5

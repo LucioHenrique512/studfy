@@ -6,6 +6,7 @@ import { useTheme } from "styled-components";
 import "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/types";
+import { SessionType } from "./redux/session/types";
 
 export const navigationTheme = {
   ...DefaultTheme,
@@ -17,14 +18,16 @@ export const navigationTheme = {
 
 export const Routes = () => {
   const { primary } = useTheme();
-  const { section } = useSelector((store: RootState) => store.section);
+  const { user, credentials }: SessionType = useSelector(
+    (store: RootState) => store.session
+  );
 
-  console.log("SECTION", section);
+  console.log("SESSION ->", { user, credentials });
 
   return (
     <>
       <NavigationContainer theme={navigationTheme}>
-        {!section.uid ? <OnboardingNavigation /> : <HomeNavigation />}
+        {!user.uid ? <OnboardingNavigation /> : <HomeNavigation />}
       </NavigationContainer>
       <StatusBar style="auto" backgroundColor={primary} />
     </>

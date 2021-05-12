@@ -9,9 +9,12 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./src/redux";
 import "./src/services/firebase";
 import Toast from "react-native-toast-message";
+import { initGoogleSignin } from "./src/services/firebase";
 
 export default function App() {
   const scheme = useColorScheme();
+  initGoogleSignin();
+
   return (
     <AppearanceProvider>
       <Provider store={store}>

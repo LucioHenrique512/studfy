@@ -4,62 +4,22 @@ import { Image, View } from "react-native";
 import { SYText, SYButton, SYTextInput } from "../../../../components";
 import { fontScale, horizontalScale } from "../../../../commons/sizes";
 import { SYHeader } from "../../../../components";
-import {
-  Container,
-  ButtonsContainer,
-  TextContainer,
-  TextFieldsContainer,
-} from "./styles";
-import * as Yup from "yup";
-import { Formik } from "formik";
+import { Container, TextContainer } from "./styles";
 import { useNavigation } from "@react-navigation/core";
-import { authenticateUser } from "../../../../helpers/firebase";
 import { showToast } from "../../../../utils/toastNoatification";
 import { useDispatch } from "react-redux";
-import {
-  sectionAuthenticateUser,
-  sectionLogoutUser,
-} from "../../../../redux/section/actions";
+import { sessionLoginUser } from "../../../../redux/session/actions";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { Sizes } from "../../../../commons";
+import { useTheme } from "styled-components";
+import { signIn } from "../../../../services/firebase";
+
+const PLATFORMS = { GOOGLE: "GOOGLE", FACEBOOK: "FACEBOOK" };
 
 export const LoginScreen = () => {
-  const [loading, setLoading] = useState(false);
-  const { navigate } = useNavigation();
-
+  const [loading, setLoading] = useState("");
+  const { white_text } = useTheme();
   const dispatch = useDispatch();
-
-  const handleSubmitForm = (value: any) => {
-    const email: string = value.email;
-    const password: string = value.password;
-    setLoading(true);
-
-    authenticateUser({ email, password })
-      .then((response) => {
-        setLoading(false);
-        dispatch(sectionAuthenticateUser(response));
-        showToast({ type: "success", text1: "Seja bem vindo! 😊" });
-        console.log(response);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log(error);
-        dispatch(sectionLogoutUser());
-        switch (error.code) {
-          case "auth/wrong-password":
-            showToast({
-              type: "error",
-              text1: "Usuário ou senha incorretos.",
-            });
-            break;
-          default:
-            showToast({
-              type: "error",
-              text1:
-                "Algo de errado ocorreu com o login, entre em contato com o suporte!",
-            });
-            break;
-        }
-      });
-  };
 
   const TopContainer = () => {
     return (
@@ -71,104 +31,96 @@ export const LoginScreen = () => {
       >
         <SYHeader title="Login" />
         <Image
-          style={{ width: horizontalScale(150), resizeMode: "contain" }}
+          style={{ width: horizontalScale(170), resizeMode: "contain" }}
           source={require("../../../../assets/logo.png")}
         />
       </View>
     );
   };
 
-  const formValidationSchema = Yup.object().shape({
-    email: Yup.string()
-      .required("Favor insira o seu email.")
-      .email("Inssira um email válido"),
-    password: Yup.string()
-      .required("Favor insira a sua senha.")
-      .min(6, "No minimo 6 characteres."),
-  });
+  const handleLogin = (platform: string) => {
+    console.log("Sigin with ", platform);
+    setLoading(platform);
+    signIn()
+      .then((response) => {
+        setLoading("none");
+
+        const { user, idToken, serverAuthCode }: any = response;
+
+        dispatch(
+          sessionLoginUser({
+            user: {
+              name: user.name,
+              email: user.email,
+              photo: user.photo,
+              uid: user.id,
+            },
+            credentials: { idToken, serverAuthCode },
+          })
+        );
+      })
+      .catch((error) => {
+        setLoading("none");
+        showToast({
+          type: "error",
+          text1: "Erro",
+          text2: error.message,
+        });
+        console.log("DEU ERRO ->", error);
+      });
+  };
 
   const BottomItem = () => {
     return (
       <Container>
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          onSubmit={(value) => handleSubmitForm(value)}
-          validationSchema={formValidationSchema}
-        >
-          {({
-            handleBlur,
-            handleChange,
-            values,
-            submitForm,
-            errors,
-            touched,
-          }) => (
-            <>
-              <TextContainer>
-                <SYText
-                  text="Bem vindo de volta"
-                  size={fontScale(25)}
-                  fontWeight="bold"
-                  marginBottom={fontScale(5)}
-                />
-                <SYText
-                  text="favor realize o login a baixo"
-                  fontWeight="500"
-                  secondary
-                  marginBottom={fontScale(30)}
-                />
-              </TextContainer>
-              <TextFieldsContainer>
-                <SYTextInput
-                  key={"email"}
-                  placeholder="Email"
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
-                  value={values.email}
-                  editable={!loading}
-                  keyboardType={"email-address"}
-                  error={touched.email && !!errors.email}
-                  message={touched.email && !!errors.email ? errors.email : ""}
-                />
-                <SYTextInput
-                  key={"password"}
-                  placeholder="Senha"
-                  onChangeText={handleChange("password")}
-                  onBlur={handleBlur("password")}
-                  value={values.password}
-                  secureTextEntry
-                  keyboardType={"visible-password"}
-                  editable={!loading}
-                  error={touched.password && !!errors.password}
-                  message={
-                    touched.password && !!errors.password ? errors.password : ""
-                  }
-                />
-              </TextFieldsContainer>
-              <ButtonsContainer>
-                <SYButton
-                  text="ENTRAR"
-                  marginBottom={fontScale(25)}
-                  onPress={submitForm}
-                  loading={loading}
-                />
-                <SYButton
-                  text="Esqueçi minha senha"
-                  linkStyle
-                  textSize={fontScale(12)}
-                  underline
-                />
-              </ButtonsContainer>
-            </>
-          )}
-        </Formik>
+        <TextContainer>
+          <SYText
+            text="Olá, seja bem vindo! 😊"
+            size={fontScale(25)}
+            fontWeight="bold"
+            marginBottom={fontScale(5)}
+          />
+          <SYText
+            text="favor realize o login a baixo"
+            fontWeight="500"
+            secondary
+            marginBottom={fontScale(30)}
+          />
+        </TextContainer>
+        <SYButton
+          text="ENTRAR COM GOOGLE"
+          marginBottom={fontScale(25)}
+          loading={loading === PLATFORMS.GOOGLE}
+          onPress={() => handleLogin(PLATFORMS.GOOGLE)}
+          icon={
+            <FontAwesome5
+              name="google"
+              size={Sizes.fontScale(20)}
+              color={white_text}
+            />
+          }
+        />
+        <SYButton
+          text="ENTRAR COM FACEBOOK"
+          marginBottom={fontScale(25)}
+          loading={loading === PLATFORMS.FACEBOOK}
+          onPress={() => handleLogin(PLATFORMS.FACEBOOK)}
+          disabled
+          icon={
+            <FontAwesome5
+              name="facebook-f"
+              size={Sizes.fontScale(20)}
+              color={white_text}
+            />
+          }
+        />
       </Container>
     );
   };
 
   return (
     <OnboardContainer
-      bottomHeight={0.6}
+      bottomHeight={0.5}
       ImageItem={TopContainer}
       BottomItem={BottomItem}
     />

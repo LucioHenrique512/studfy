@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "70291854702",
+    "firebase_url": "https://studfy-4dad9-default-rtdb.firebaseio.com",
+    "project_id": "studfy-4dad9",
+    "storage_bucket": "studfy-4dad9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:70291854702:android:874a08703c6aa0219ddd7f",
+        "android_client_info": {
+          "package_name": "com.studfy.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "70291854702-167fl0i8n4bfkrmgt73rs18l4grmh1mm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.studfy.app",
+            "certificate_hash": "03d1c51770f561b2c61a53d08ea998993034b449"
+          }
+        },
+        {
+          "client_id": "70291854702-aao3av68dum4sbla4vvohsgscn8pagv7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIswed7VXcrpP7VANzP1K5Wv7I35aOmQ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "70291854702-aao3av68dum4sbla4vvohsgscn8pagv7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "70291854702-rf8trt220ri6u5mavtkjq0qj3jg9c63p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.studfy.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,25 +1,36 @@
 import React from "react";
 import { OnboardContainer } from "../../components/onboardContainer";
-import { Image } from "react-native";
+import { Image, View } from "react-native";
 import { SYText, SYButton } from "../../../../components";
 import { fontScale } from "../../../../commons/sizes";
 import { Container, ButtonsContainer, TextContainer } from "./styles";
 import { useNavigation } from "@react-navigation/native";
+import { Sizes } from "../../../../commons";
 
 export const WellcomeScreen = () => {
   const { navigate } = useNavigation();
 
   const ImagemItem = () => {
-    return <Image source={require("../../../../assets/logo.png")} />;
+    return (
+      <View
+        style={{
+          justifyContent: "center",
+          alignContent: "center",
+          alignItems: "center",
+          height: Sizes.SCREEN_HEIGHT * (1 - 0.4),
+        }}
+      >
+        <Image
+          style={{ width: Sizes.horizontalScale(250), resizeMode: "contain" }}
+          source={require("../../../../assets/logo.png")}
+        />
+      </View>
+    );
   };
 
   const BottomItem = () => {
     const handleLoginPress = () => {
       navigate("login");
-    };
-
-    const handleSignupPress = () => {
-      navigate("signup");
     };
 
     return (
@@ -40,14 +51,8 @@ export const WellcomeScreen = () => {
         </TextContainer>
         <ButtonsContainer>
           <SYButton
-            text="REGISTRAR"
-            marginBottom={fontScale(25)}
-            onPress={handleSignupPress}
-          />
-          <SYButton
             text="ENTRAR"
-            linkStyle
-            primaryLinkStyle
+            marginBottom={fontScale(25)}
             onPress={handleLoginPress}
           />
         </ButtonsContainer>
