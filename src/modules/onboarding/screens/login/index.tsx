@@ -4,41 +4,20 @@ import { Image, View } from "react-native";
 import { SYText, SYButton, SYTextInput } from "../../../../components";
 import { fontScale, horizontalScale } from "../../../../commons/sizes";
 import { SYHeader } from "../../../../components";
-import {
-  Container,
-  ButtonsContainer,
-  TextContainer,
-  TextFieldsContainer,
-} from "./styles";
-import * as Yup from "yup";
-import { Formik } from "formik";
+import { Container, TextContainer } from "./styles";
 import { useNavigation } from "@react-navigation/core";
 import { showToast } from "../../../../utils/toastNoatification";
 import { useDispatch } from "react-redux";
-import {
-  sectionAuthenticateUser,
-  sectionLogoutUser,
-} from "../../../../redux/section/actions";
+import { sessionLoginUser } from "../../../../redux/session/actions";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Sizes } from "../../../../commons";
 import { useTheme } from "styled-components";
-import auth from "@react-native-firebase/auth";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import { signIn } from "../../../../services/firebase";
 
-const onGoogleButtonPress = async () => {
-  // Get the users ID token
-  const { idToken } = await GoogleSignin.signIn();
-
-  // Create a Google credential with the token
-  const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-  // Sign-in the user with the credential
-  return auth().signInWithCredential(googleCredential);
-};
+const PLATFORMS = { GOOGLE: "GOOGLE", FACEBOOK: "FACEBOOK" };
 
 export const LoginScreen = () => {
-  const [loading, setLoading] = useState(false);
-  const { navigate } = useNavigation();
+  const [loading, setLoading] = useState("");
   const { white_text } = useTheme();
   const dispatch = useDispatch();
 
@@ -61,12 +40,34 @@ export const LoginScreen = () => {
 
   const handleLogin = (platform: string) => {
     console.log("Sigin with ", platform);
-
-    onGoogleButtonPress()
+    setLoading(platform);
+    signIn()
       .then((response) => {
-        console.log(response);
+        setLoading("none");
+
+        const { user, idToken, serverAuthCode }: any = response;
+
+        dispatch(
+          sessionLoginUser({
+            user: {
+              name: user.name,
+              email: user.email,
+              photo: user.photo,
+              uid: user.id,
+            },
+            credentials: { idToken, serverAuthCode },
+          })
+        );
       })
-      .catch((error) => console.log("erro ->", error));
+      .catch((error) => {
+        setLoading("none");
+        showToast({
+          type: "error",
+          text1: "Erro",
+          text2: error.message,
+        });
+        console.log("DEU ERRO ->", error);
+      });
   };
 
   const BottomItem = () => {
@@ -89,8 +90,8 @@ export const LoginScreen = () => {
         <SYButton
           text="ENTRAR COM GOOGLE"
           marginBottom={fontScale(25)}
-          loading={loading}
-          onPress={() => handleLogin("google")}
+          loading={loading === PLATFORMS.GOOGLE}
+          onPress={() => handleLogin(PLATFORMS.GOOGLE)}
           icon={
             <FontAwesome5
               name="google"
@@ -102,8 +103,9 @@ export const LoginScreen = () => {
         <SYButton
           text="ENTRAR COM FACEBOOK"
           marginBottom={fontScale(25)}
-          loading={loading}
-          onPress={() => handleLogin("facebook")}
+          loading={loading === PLATFORMS.FACEBOOK}
+          onPress={() => handleLogin(PLATFORMS.FACEBOOK)}
+          disabled
           icon={
             <FontAwesome5
               name="facebook-f"

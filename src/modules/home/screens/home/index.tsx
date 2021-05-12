@@ -1,39 +1,33 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SYButton } from "../../../../components";
-import { signoutUser } from "../../../../helpers/firebase";
-import { sectionLogoutUser } from "../../../../redux/section/actions";
+import { sessionLogoutUser } from "../../../../redux/session/actions";
 import { showToast } from "../../../../utils/toastNoatification";
 import { Container } from "./styles";
 import { Header, MainCard } from "../../components";
+import { signOut } from "../../../../services/firebase";
+import { useNavigation, useRoute } from "@react-navigation/core";
+import { RootState } from "../../../../redux/types";
+import { SessionType } from "../../../../redux/session/types";
 
 export const HomeScreen = () => {
   const dispatch = useDispatch();
+  const { user }: SessionType = useSelector(
+    (store: RootState) => store.session
+  );
 
   const handleLogout = () => {
-    signoutUser()
-      .then(() => {
-        dispatch(sectionLogoutUser());
-        showToast({
-          type: "info",
-          text1: "Você fou deslogado!",
-          text2: "Volte sempre!",
-        });
-      })
-      .catch(() => {
-        showToast({
-          type: "error",
-          text1: "Ocorreu um erro ao deslogar!",
-        });
-      });
+    signOut().then(() => {
+      dispatch(sessionLogoutUser());
+    });
   };
 
   return (
     <Container>
-      <Header>
+      <Header user={user}>
         <MainCard />
       </Header>
-      <SYButton onPress={handleLogout} text={"LOGOUT"} />
+      <SYButton onPress={handleLogout} text={"LOGOUT"} linkStyle />
     </Container>
   );
 };
