@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "70291854702-167fl0i8n4bfkrmgt73rs18l4grmh1mm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.studfy.app",
+            "certificate_hash": "03d1c51770f561b2c61a53d08ea998993034b449"
+          }
+        },
+        {
           "client_id": "70291854702-aao3av68dum4sbla4vvohsgscn8pagv7.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -30,6 +38,13 @@
             {
               "client_id": "70291854702-aao3av68dum4sbla4vvohsgscn8pagv7.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "70291854702-rf8trt220ri6u5mavtkjq0qj3jg9c63p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.studfy.app"
+              }
             }
           ]
         }
