@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components/native";
 
 interface TextProps {
-  text?: string;
+  text?: string | number;
   secondary?: boolean;
   color?: string;
   size?: number;
@@ -21,6 +21,7 @@ interface TextProps {
   marginTop?: number;
   marginBottom?: number;
   textDecoration?: "underline" | "none";
+  style?: any;
 }
 
 export const SYText = (props: TextProps) => (

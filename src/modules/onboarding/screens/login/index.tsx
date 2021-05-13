@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { OnboardContainer } from "../../components/onboardContainer";
 import { Image, View } from "react-native";
-import { SYText, SYButton, SYTextInput } from "../../../../components";
+import { SYText, SYButton } from "../../../../components";
 import { fontScale, horizontalScale } from "../../../../commons/sizes";
 import { SYHeader } from "../../../../components";
 import { Container, TextContainer } from "./styles";
-import { useNavigation } from "@react-navigation/core";
 import { showToast } from "../../../../utils/toastNoatification";
 import { useDispatch } from "react-redux";
 import { sessionLoginUser } from "../../../../redux/session/actions";
