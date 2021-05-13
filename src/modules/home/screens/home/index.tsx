@@ -12,6 +12,31 @@ import { SessionType } from "../../../../redux/session/types";
 import { Sizes } from "../../../../commons";
 import { View } from "react-native";
 
+const data = {
+  subjects: [
+    {
+      id: "unico",
+      name: "Engenharia de Software",
+      abbreviatedName: "Eng. Software",
+      punctuation: {
+        maxNote: 100,
+        midNote: 70,
+        note: 80,
+      },
+    },
+    {
+      id: "unico2",
+      name: "Programação Orientada a Objetos, 1",
+      abbreviatedName: "POO 1",
+      punctuation: {
+        maxNote: 100,
+        midNote: 70,
+        note: 50,
+      },
+    },
+  ],
+};
+
 export const HomeScreen = () => {
   const dispatch = useDispatch();
   const { user }: SessionType = useSelector(
@@ -34,7 +59,7 @@ export const HomeScreen = () => {
         <SYText text="Disciplinas" secondary />
       </Section>
 
-      <HorizontalMenu />
+      <HorizontalMenu subjects={data.subjects} />
 
       <Section>
         <SYText text="Atividades" secondary />
