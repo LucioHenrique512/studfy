@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SYButton } from "../../../../components";
+import { SYButton, SYTextInput } from "../../../../components";
 import { sessionLogoutUser } from "../../../../redux/session/actions";
 import { showToast } from "../../../../utils/toastNoatification";
 import { Container } from "./styles";
@@ -25,7 +25,7 @@ export const HomeScreen = () => {
   return (
     <Container>
       <Header user={user}>
-        <MainCard />
+        <MainCard cardValue={5} maxCardValue={100} />
       </Header>
 
       {/* <SYButton onPress={handleLogout} text={"LOGOUT"} linkStyle /> */}

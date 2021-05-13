@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
 import { Sizes } from "../../../../commons";
+import { SYTextInput } from "../../../../components";
 import { CircularProgress } from "../circularProgres";
 
-export const MainCard = () => {
+export const MainCard = ({
+  cardValue,
+  maxCardValue,
+}: {
+  cardValue: number;
+  maxCardValue: number;
+}) => {
   return (
     <Container>
       <ChartContainer>
-        <CircularProgress value={100} />
+        <CircularProgress value={cardValue} maxValue={maxCardValue} />
       </ChartContainer>
     </Container>
   );

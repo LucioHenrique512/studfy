@@ -11,6 +11,7 @@ export const light = {
   text_input_background: "#F0F0F0",
   text_input_text_color: "#040404",
   text_error_color: "#ff7c7c",
+  circular_progress_color: "#04D361",
 };
 
 export const dark: ThemeType = {
@@ -24,4 +25,5 @@ export const dark: ThemeType = {
   text_input_background: "#4E4E4E",
   text_input_text_color: "#f4f4f4",
   text_error_color: "#ff7c7c",
+  circular_progress_color: "#04D361",
 };

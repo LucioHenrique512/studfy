@@ -25,11 +25,8 @@ interface TextInputProps {
 }
 
 export const SYTextInput = (props: TextInputProps) => {
-  const {
-    secondary_text,
-    text_input_text_color,
-    text_error_color,
-  } = useTheme();
+  const { secondary_text, text_input_text_color, text_error_color } =
+    useTheme();
 
   const propsInputContainer = { ...props, marginBottom: 0, marginTop: 0 };
 
