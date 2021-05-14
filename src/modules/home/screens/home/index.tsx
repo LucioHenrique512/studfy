@@ -140,7 +140,7 @@ export const HomeScreen = () => {
       data={data.activities}
       ListHeaderComponent={() => <HeaderComponent />}
       renderItem={({ item, index }) => (
-        <ActivitiesItem key={index} subject={item} />
+        <ActivitiesItem key={index} activity={item} />
       )}
     />
   );

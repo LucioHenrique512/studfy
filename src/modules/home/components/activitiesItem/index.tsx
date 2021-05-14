@@ -3,12 +3,32 @@ import styled from "styled-components/native";
 import { Sizes } from "../../../../commons";
 import { SYText } from "../../../../components";
 
-export const ActivitiesItem = ({ subject }: { subject: any }) => {
-  console.log(subject);
+export const ActivitiesItem = ({ activity }: { activity: any }) => {
+  console.log(activity);
   return (
     <Container>
       <CardContainer>
-        <SYText text="teste" />
+        <CardBody>
+          <TopContainer>
+            <TitleContainer>
+              <SYText text={activity.name} />
+              <SYText
+                text={"Entrega: 10/04/1996"}
+                secondary
+                size={Sizes.fontScale(10)}
+                fontWeight="bold"
+              />
+            </TitleContainer>
+            <SYText
+              text={"activity.activity"}
+              size={Sizes.fontScale(12)}
+              secondary
+            />
+          </TopContainer>
+          <BottomContainer>
+            <SYText text={"Nota 10/20"} size={Sizes.fontScale(12)} secondary />
+          </BottomContainer>
+        </CardBody>
       </CardContainer>
     </Container>
   );
@@ -28,4 +48,18 @@ const CardContainer = styled.View`
   border-width: 1px;
   border-color: ${({ theme }) => `${theme.secondary_text}65`};
   padding: ${Sizes.fontScale(15)}px;
+`;
+
+const CardBody = styled.View`
+  justify-content: space-between;
+  height: 100%;
+`;
+
+const TopContainer = styled.View``;
+const BottomContainer = styled.View``;
+
+const TitleContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
