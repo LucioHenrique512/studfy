@@ -15,3 +15,14 @@ export type SubjectType = {
     note: number;
   };
 };
+
+export type ActivityType = {
+  id: "activiteidunico1";
+  name: "Atividade avaliativa A1";
+  subjectId: "unico";
+  punctuation: {
+    maxNote: 20;
+    midNote: 10;
+    note: 12;
+  };
+};

@@ -2,9 +2,10 @@ import React from "react";
 import styled from "styled-components/native";
 import { Sizes } from "../../../../commons";
 import { SYText } from "../../../../components";
+import { ActivityType } from "../../../../types";
 import { ProgressBar } from "../progressBar";
 
-export const ActivitiesItem = ({ activity }: { activity: any }) => {
+export const ActivitiesItem = ({ activity }: { activity: ActivityType }) => {
   return (
     <Container>
       <CardContainer>
@@ -28,9 +29,9 @@ export const ActivitiesItem = ({ activity }: { activity: any }) => {
           <BottomContainer>
             <SYText text={"Nota 10/20"} size={Sizes.fontScale(12)} secondary />
             <ProgressBar
-              maxValue={20}
-              midValue={10}
-              value={5}
+              maxValue={activity.punctuation.maxNote}
+              midValue={activity.punctuation.midNote}
+              value={activity.punctuation.note}
               width={Sizes.horizontalScale(211)}
             />
           </BottomContainer>

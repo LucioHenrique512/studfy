@@ -12,10 +12,10 @@ import {
 } from "../../components";
 import { signOut } from "../../../../services/firebase";
 import { useNavigation, useRoute } from "@react-navigation/core";
-import { RootState } from "../../../../redux/types";
+import { ActionType, RootState } from "../../../../redux/types";
 import { SessionType } from "../../../../redux/session/types";
-import { SubjectType } from "../../../../types";
-import { View } from "react-native";
+import { ActivityType, SubjectType } from "../../../../types";
+import { View, ListRenderItem } from "react-native";
 
 const data = {
   subjects: [
@@ -136,13 +136,15 @@ export const HomeScreen = () => {
     </View>
   );
 
+  const RenderItem: ListRenderItem<any> = ({ item }) => (
+    <ActivitiesItem key={item.id} activity={item} />
+  );
+
   return (
     <Container
       data={data.activities}
       ListHeaderComponent={() => <HeaderComponent />}
-      renderItem={({ item, index }) => (
-        <ActivitiesItem key={index} activity={item} />
-      )}
+      renderItem={RenderItem}
     />
   );
 };
