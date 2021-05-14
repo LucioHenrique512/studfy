@@ -16,78 +16,29 @@ import { ActionType, RootState } from "../../../../redux/types";
 import { SessionType } from "../../../../redux/session/types";
 import { ActivityType, SubjectType } from "../../../../types";
 import { View, ListRenderItem } from "react-native";
+import { Sizes } from "../../../../commons";
+import { ActivityStateType } from "../../../../redux/activities/types";
+import { SubjectStateType } from "../../../../redux/subjects/types";
+import { SetSelectedSubject } from "../../../../redux/subjects/actions";
 
 const data = {
-  subjects: [
-    {
-      id: "unico2",
-      name: "Programação Orientada a Objetos, 1",
-      abbreviatedName: "POO 1",
-      punctuation: {
-        maxNote: 100,
-        midNote: 70,
-        note: 30,
-      },
-    },
-    {
-      id: "unico3",
-      name: "Desenvolvimento WEB 1",
-      abbreviatedName: "Web 1",
-      punctuation: {
-        maxNote: 100,
-        midNote: 70,
-        note: 70,
-      },
-    },
-    {
-      id: "unico",
-      name: "Engenharia de Software",
-      abbreviatedName: "Eng. Software",
-      punctuation: {
-        maxNote: 100,
-        midNote: 70,
-        note: 90,
-      },
-    },
-  ],
-  activities: [
-    {
-      id: "activiteidunico",
-      name: "Atividade avaliativa A1",
-      subjectId: "unico2",
-      punctuation: {
-        maxNote: 20,
-        midNote: 10,
-        note: 5,
-      },
-    },
-    {
-      id: "activiteidunico1",
-      name: "Atividade avaliativa A1",
-      subjectId: "unico",
-      punctuation: {
-        maxNote: 20,
-        midNote: 10,
-        note: 12,
-      },
-    },
-    {
-      id: "activiteidunico2",
-      name: "Atividade avaliativa A1",
-      subjectId: "unico3",
-      punctuation: {
-        maxNote: 20,
-        midNote: 10,
-        note: 18,
-      },
-    },
-  ],
+  subjects: [],
+  activities: [],
 };
 
 export const HomeScreen = () => {
   const dispatch = useDispatch();
+
   const { user }: SessionType = useSelector(
     (store: RootState) => store.session
+  );
+
+  const activities: ActivityStateType = useSelector(
+    (store: RootState) => store.activities
+  );
+
+  const subjects: SubjectStateType = useSelector(
+    (store: RootState) => store.subjects
   );
 
   const initialSubject: SubjectType = {
@@ -96,9 +47,6 @@ export const HomeScreen = () => {
     abbreviatedName: "",
     punctuation: { maxNote: 0, midNote: 0, note: 0 },
   };
-
-  const [selectedSubject, setSelectedSubject] =
-    useState<SubjectType>(initialSubject);
 
   const handleLogout = () => {
     signOut().then(() => {
@@ -110,10 +58,10 @@ export const HomeScreen = () => {
     <View>
       <Header user={user}>
         <MainCard
-          cardValue={selectedSubject.punctuation.note}
-          maxCardValue={selectedSubject.punctuation.maxNote}
-          subjectName={selectedSubject.name}
-          midValue={selectedSubject.punctuation.midNote}
+          cardValue={subjects.selectedSubject.punctuation.note}
+          maxCardValue={subjects.selectedSubject.punctuation.maxNote}
+          subjectName={subjects.selectedSubject.name}
+          midValue={subjects.selectedSubject.punctuation.midNote}
         />
       </Header>
 
@@ -122,10 +70,10 @@ export const HomeScreen = () => {
       </Section>
 
       <HorizontalMenu
-        subjects={data.subjects}
-        selectedSubject={selectedSubject}
+        subjects={subjects.itens}
+        selectedSubject={subjects.selectedSubject}
         onPressSubject={(subject) => {
-          setSelectedSubject(subject);
+          dispatch(SetSelectedSubject(subject));
         }}
         onPressAddSubject={() => {}}
       />
@@ -141,11 +89,13 @@ export const HomeScreen = () => {
   );
 
   return (
-    <Container
-      data={data.activities}
-      ListHeaderComponent={() => <HeaderComponent />}
-      renderItem={RenderItem}
-    />
+    <View style={{ paddingBottom: Sizes.fontScale(40) }}>
+      <Container
+        data={activities.itens}
+        ListHeaderComponent={() => <HeaderComponent />}
+        renderItem={RenderItem}
+      />
+    </View>
   );
 };
 

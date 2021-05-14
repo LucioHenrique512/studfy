@@ -42,7 +42,6 @@ export const ProgressBar = ({
 
   useEffect(() => {
     progressAnimation.addListener((value) => {
-      console.log("ANIM ->", value.value);
       if (progressBarRef?.current) {
         progressBarRef.current.setNativeProps({
           width: value.value,

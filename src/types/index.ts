@@ -17,12 +17,12 @@ export type SubjectType = {
 };
 
 export type ActivityType = {
-  id: "activiteidunico1";
-  name: "Atividade avaliativa A1";
-  subjectId: "unico";
+  id: string;
+  name: string;
+  subjectId: string;
   punctuation: {
-    maxNote: 20;
-    midNote: 10;
-    note: 12;
+    maxNote: number;
+    midNote: number;
+    note: number;
   };
 };
