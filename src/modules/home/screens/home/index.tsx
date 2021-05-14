@@ -4,12 +4,18 @@ import { SYButton, SYText, SYTextInput } from "../../../../components";
 import { sessionLogoutUser } from "../../../../redux/session/actions";
 import { showToast } from "../../../../utils/toastNoatification";
 import { Container, Section } from "./styles";
-import { Header, MainCard, HorizontalMenu } from "../../components";
+import {
+  Header,
+  MainCard,
+  HorizontalMenu,
+  ActivitiesItem,
+} from "../../components";
 import { signOut } from "../../../../services/firebase";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { RootState } from "../../../../redux/types";
 import { SessionType } from "../../../../redux/session/types";
 import { SubjectType } from "../../../../types";
+import { View } from "react-native";
 
 const data = {
   subjects: [
@@ -44,6 +50,38 @@ const data = {
       },
     },
   ],
+  activities: [
+    {
+      id: "activiteidunico",
+      name: "Atividade avaliativa A1",
+      subjectId: "unico2",
+      punctuation: {
+        maxNote: 20,
+        midNote: 10,
+        note: 5,
+      },
+    },
+    {
+      id: "activiteidunico1",
+      name: "Atividade avaliativa A1",
+      subjectId: "unico",
+      punctuation: {
+        maxNote: 20,
+        midNote: 10,
+        note: 15,
+      },
+    },
+    {
+      id: "activiteidunico2",
+      name: "Atividade avaliativa A1",
+      subjectId: "unico3",
+      punctuation: {
+        maxNote: 20,
+        midNote: 10,
+        note: 18,
+      },
+    },
+  ],
 };
 
 export const HomeScreen = () => {
@@ -68,8 +106,8 @@ export const HomeScreen = () => {
     });
   };
 
-  return (
-    <Container>
+  const HeaderComponent = () => (
+    <View>
       <Header user={user}>
         <MainCard
           cardValue={selectedSubject.punctuation.note}
@@ -94,7 +132,20 @@ export const HomeScreen = () => {
       <Section>
         <SYText text="Atividades" secondary />
       </Section>
-      <SYButton onPress={handleLogout} text={"LOGOUT"} linkStyle />
-    </Container>
+    </View>
+  );
+
+  return (
+    <Container
+      data={data.activities}
+      ListHeaderComponent={() => <HeaderComponent />}
+      renderItem={({ item, index }) => (
+        <ActivitiesItem key={index} subject={item} />
+      )}
+    />
   );
 };
+
+{
+  /* <SYButton onPress={handleLogout} text={"LOGOUT"} linkStyle /> */
+}

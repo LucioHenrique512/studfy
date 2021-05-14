@@ -86,7 +86,8 @@ const ItemButton = styled.TouchableOpacity<ItemButton>`
   justify-content: center;
   padding: ${Sizes.fontScale(20)}px;
   border-radius: ${Sizes.fontScale(7)}px;
-  border: solid 1px ${({ theme }) => `${theme.secondary_text}65`};
+  border-width: 1px;
+  border-color: ${({ theme }) => `${theme.secondary_text}65`};
   flex-direction: row;
   width: auto;
 `;
