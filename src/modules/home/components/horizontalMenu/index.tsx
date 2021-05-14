@@ -10,29 +10,20 @@ export const HorizontalMenu = ({
   subjects,
   onPressAddSubject,
   onPressSubject,
+  selectedSubject,
 }: {
   subjects: Array<SubjectType>;
   onPressSubject: (subject: SubjectType) => void;
   onPressAddSubject: () => void;
+  selectedSubject: SubjectType;
 }) => {
   const { white_text } = useTheme();
-
-  const ADD_SUBJECT: SubjectType = {
-    id: "ADD_SUBJECT",
-    name: "ADICIONAR",
-    abbreviatedName: "ADICIONAR",
-    punctuation: {
-      maxNote: 0,
-      midNote: 0,
-      note: 0,
-    },
-  };
 
   return (
     <Container horizontal showsHorizontalScrollIndicator={false}>
       {subjects.map((item) => (
         <ItemButton
-          selected={false}
+          selected={item.id === selectedSubject.id}
           onPress={() => {
             onPressSubject(item);
           }}
@@ -41,10 +32,19 @@ export const HorizontalMenu = ({
           <SYText
             size={Sizes.fontScale(13)}
             text={`${item.abbreviatedName}`}
-            color={!true ? white_text : undefined}
+            color={item.id === selectedSubject.id ? white_text : undefined}
           />
         </ItemButton>
       ))}
+      <ItemButton
+        style={{
+          maxWidth: Sizes.horizontalScale(120),
+        }}
+        selected={true}
+        onPress={onPressAddSubject}
+      >
+        <SYText size={Sizes.fontScale(13)} text={`TODAS`} color={white_text} />
+      </ItemButton>
       <ItemButton
         style={{
           maxWidth: Sizes.horizontalScale(120),
@@ -61,7 +61,7 @@ export const HorizontalMenu = ({
 
         <SYText
           size={Sizes.fontScale(13)}
-          text={`${ADD_SUBJECT.abbreviatedName}`}
+          text={"ADICIONAR"}
           color={white_text}
         />
       </ItemButton>

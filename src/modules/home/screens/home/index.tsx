@@ -68,7 +68,7 @@ const data = {
       punctuation: {
         maxNote: 20,
         midNote: 10,
-        note: 15,
+        note: 12,
       },
     },
     {
@@ -123,6 +123,7 @@ export const HomeScreen = () => {
 
       <HorizontalMenu
         subjects={data.subjects}
+        selectedSubject={selectedSubject}
         onPressSubject={(subject) => {
           setSelectedSubject(subject);
         }}
