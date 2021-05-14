@@ -9,21 +9,10 @@ import { signOut } from "../../../../services/firebase";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { RootState } from "../../../../redux/types";
 import { SessionType } from "../../../../redux/session/types";
-import { Sizes } from "../../../../commons";
-import { View } from "react-native";
+import { SubjectType } from "../../../../types";
 
 const data = {
   subjects: [
-    {
-      id: "unico",
-      name: "Engenharia de Software",
-      abbreviatedName: "Eng. Software",
-      punctuation: {
-        maxNote: 100,
-        midNote: 70,
-        note: 80,
-      },
-    },
     {
       id: "unico2",
       name: "Programação Orientada a Objetos, 1",
@@ -31,7 +20,27 @@ const data = {
       punctuation: {
         maxNote: 100,
         midNote: 70,
-        note: 50,
+        note: 30,
+      },
+    },
+    {
+      id: "unico3",
+      name: "Desenvolvimento WEB 1",
+      abbreviatedName: "Web 1",
+      punctuation: {
+        maxNote: 100,
+        midNote: 70,
+        note: 70,
+      },
+    },
+    {
+      id: "unico",
+      name: "Engenharia de Software",
+      abbreviatedName: "Eng. Software",
+      punctuation: {
+        maxNote: 100,
+        midNote: 70,
+        note: 90,
       },
     },
   ],
@@ -43,6 +52,16 @@ export const HomeScreen = () => {
     (store: RootState) => store.session
   );
 
+  const initialSubject: SubjectType = {
+    id: "",
+    name: "",
+    abbreviatedName: "",
+    punctuation: { maxNote: 0, midNote: 0, note: 0 },
+  };
+
+  const [selectedSubject, setSelectedSubject] =
+    useState<SubjectType>(initialSubject);
+
   const handleLogout = () => {
     signOut().then(() => {
       dispatch(sessionLogoutUser());
@@ -52,19 +71,30 @@ export const HomeScreen = () => {
   return (
     <Container>
       <Header user={user}>
-        <MainCard cardValue={5} maxCardValue={100} />
+        <MainCard
+          cardValue={selectedSubject.punctuation.note}
+          maxCardValue={selectedSubject.punctuation.maxNote}
+          subjectName={selectedSubject.name}
+          midValue={selectedSubject.punctuation.midNote}
+        />
       </Header>
 
       <Section>
         <SYText text="Disciplinas" secondary />
       </Section>
 
-      <HorizontalMenu subjects={data.subjects} />
+      <HorizontalMenu
+        subjects={data.subjects}
+        onPressSubject={(subject) => {
+          setSelectedSubject(subject);
+        }}
+        onPressAddSubject={() => {}}
+      />
 
       <Section>
         <SYText text="Atividades" secondary />
       </Section>
-      {/* <SYButton onPress={handleLogout} text={"LOGOUT"} linkStyle /> */}
+      <SYButton onPress={handleLogout} text={"LOGOUT"} linkStyle />
     </Container>
   );
 };

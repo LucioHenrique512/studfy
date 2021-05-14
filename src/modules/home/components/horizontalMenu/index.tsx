@@ -8,8 +8,12 @@ import { SubjectType } from "../../../../types";
 
 export const HorizontalMenu = ({
   subjects,
+  onPressAddSubject,
+  onPressSubject,
 }: {
   subjects: Array<SubjectType>;
+  onPressSubject: (subject: SubjectType) => void;
+  onPressAddSubject: () => void;
 }) => {
   const { white_text } = useTheme();
 
@@ -27,7 +31,13 @@ export const HorizontalMenu = ({
   return (
     <Container horizontal showsHorizontalScrollIndicator={false}>
       {subjects.map((item) => (
-        <ItemButton selected={false} key={item.id}>
+        <ItemButton
+          selected={false}
+          onPress={() => {
+            onPressSubject(item);
+          }}
+          key={item.id}
+        >
           <SYText
             size={Sizes.fontScale(13)}
             text={`${item.abbreviatedName}`}
@@ -38,9 +48,10 @@ export const HorizontalMenu = ({
       <ItemButton
         style={{
           maxWidth: Sizes.horizontalScale(120),
-          marginRight: Sizes.fontScale(25),
+          marginRight: Sizes.horizontalScale(24),
         }}
         selected={true}
+        onPress={onPressAddSubject}
       >
         <FontAwesome5
           name={"plus"}
@@ -70,7 +81,7 @@ const ItemButton = styled.TouchableOpacity<ItemButton>`
   height: ${Sizes.horizontalScale(45)}px;
   background: ${({ theme, selected }) =>
     selected ? theme.primary : theme.foreground};
-  margin-left: ${Sizes.fontScale(25)}px;
+  margin-left: ${Sizes.horizontalScale(24)}px;
   align-items: center;
   justify-content: center;
   padding: ${Sizes.fontScale(20)}px;

@@ -7,14 +7,22 @@ import { CircularProgress } from "../circularProgres";
 export const MainCard = ({
   cardValue,
   maxCardValue,
+  subjectName,
+  midValue,
 }: {
   cardValue: number;
   maxCardValue: number;
+  subjectName: string;
+  midValue: number;
 }) => {
   return (
     <Container>
       <ChartContainer>
-        <CircularProgress value={cardValue} maxValue={maxCardValue} />
+        <CircularProgress
+          value={cardValue}
+          maxValue={maxCardValue}
+          midValue={midValue}
+        />
       </ChartContainer>
       <TextContainer>
         <SYText
@@ -22,7 +30,7 @@ export const MainCard = ({
           size={Sizes.fontScale(16)}
           fontWeight="bold"
         />
-        <SYText text="Eng. de Software" size={Sizes.fontScale(12)} secondary />
+        <SYText text={subjectName} size={Sizes.fontScale(12)} secondary />
         <SYText
           text="próxima entrega:"
           size={Sizes.fontScale(12)}
