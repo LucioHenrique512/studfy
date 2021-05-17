@@ -36,14 +36,10 @@ const INIT_STATE: SubjectStateType = {
     },
   ],
   selectedSubject: {
-    id: "unico2",
-    name: "Programação Orientada a Objetos, 1",
-    abbreviatedName: "POO 1",
-    punctuation: {
-      maxNote: 100,
-      midNote: 70,
-      note: 30,
-    },
+    id: "",
+    name: "",
+    abbreviatedName: "",
+    punctuation: { maxNote: 0, midNote: 0, note: 0 },
   },
 };
 

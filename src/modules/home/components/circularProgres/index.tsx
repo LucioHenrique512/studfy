@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Svg, { Circle } from "react-native-svg";
 import styled from "styled-components/native";
 import { Sizes } from "../../../../commons";
@@ -23,17 +23,19 @@ export const CircularProgress = ({
     useTheme();
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
   const progressRef = useRef<any>(null);
-
+  const [lastProgress, setLastProgress] = useState(CIRCUMFERENCE - progress);
   const { Value } = Animated;
 
-  const progressAnimation = useRef(new Value(50)).current;
+  const progressAnimation = useRef(new Value(lastProgress)).current;
 
   const animation = (toValue: number) => {
     return Animated.timing(progressAnimation, {
       toValue,
       duration: 250,
       useNativeDriver: true,
-    }).start();
+    }).start(() => {
+      setLastProgress(CIRCUMFERENCE - toValue);
+    });
   };
 
   useEffect(() => {
@@ -49,6 +51,7 @@ export const CircularProgress = ({
         });
       }
     });
+    return () => progressAnimation.removeAllListeners();
   }, [progress]);
 
   const getColor = (progress: number, midValue: number) => {
@@ -81,6 +84,7 @@ export const CircularProgress = ({
           cy={SIZE / 2}
           r={RADIUS}
           fill="none"
+          strokeDashoffset={lastProgress}
           stroke={getColor(progress, midValue)}
           strokeDasharray={`${CIRCUMFERENCE} ${CIRCUMFERENCE}`}
           strokeWidth={STROKE_WIDTH}
