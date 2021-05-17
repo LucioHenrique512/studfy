@@ -20,4 +20,6 @@ target 'studfy' do
   # end
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
+  pod 'RNFBDatabase', :path => '../node_modules/@react-native-firebase/database'
+
 end

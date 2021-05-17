@@ -10,14 +10,20 @@ import { useNavigation } from "@react-navigation/core";
 interface SYHeader {
   title: string;
   onCustomBack?: () => void;
+  isFullColor?: boolean;
 }
 
-export const SYHeader = ({ title, onCustomBack }: SYHeader) => {
-  const { primary } = useTheme();
+export const SYHeader = ({ title, onCustomBack, isFullColor }: SYHeader) => {
+  const { primary, white_text } = useTheme();
   const { goBack } = useNavigation();
 
   return (
-    <Container style={{ paddingHorizontal: Sizes.horizontalScale(25) }}>
+    <Container
+      isFullColor={isFullColor}
+      style={{
+        paddingHorizontal: Sizes.horizontalScale(25),
+      }}
+    >
       <TitleContainer>
         <TouchableOpacity
           style={{
@@ -35,14 +41,14 @@ export const SYHeader = ({ title, onCustomBack }: SYHeader) => {
           <FontAwesome5
             name="chevron-left"
             size={Sizes.fontScale(20)}
-            color={primary}
+            color={isFullColor ? white_text : primary}
           />
         </TouchableOpacity>
         <SYText
           text={title}
           size={Sizes.fontScale(16)}
           fontWeight="bold"
-          color={primary}
+          color={isFullColor ? white_text : primary}
         />
       </TitleContainer>
     </Container>

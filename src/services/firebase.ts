@@ -1,4 +1,5 @@
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
+import database from "@react-native-firebase/database";
 
 const statusCodes = {
   SIGN_IN_CANCELLED: "SIGN_IN_CANCELLED",
@@ -22,6 +23,8 @@ export const initGoogleSignin = () => {
     googleServicePlistPath: "", // [iOS] optional, if you renamed your GoogleService-Info file, new name here, e.g. GoogleService-Info-Staging
   });
 };
+
+export const userDatabase = database().ref("/users");
 
 export const signIn = () => {
   return new Promise(async (resolve, reject) => {

@@ -25,6 +25,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 
 export const HomeScreen = () => {
   const dispatch = useDispatch();
+  const { navigate } = useNavigation();
 
   const { user }: SessionType = useSelector(
     (store: RootState) => store.session
@@ -63,7 +64,9 @@ export const HomeScreen = () => {
           onPressSubject={(subject) => {
             dispatch(SetSelectedSubject(subject));
           }}
-          onPressAddSubject={() => {}}
+          onPressAddSubject={() => {
+            navigate("subjectForm");
+          }}
         />
 
         <Section>
