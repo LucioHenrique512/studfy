@@ -36,7 +36,7 @@ export const HorizontalMenu = ({
           />
         </ItemButton>
       ))}
-      <ItemButton
+      {/* <ItemButton
         style={{
           maxWidth: Sizes.horizontalScale(120),
         }}
@@ -44,7 +44,7 @@ export const HorizontalMenu = ({
         onPress={onPressAddSubject}
       >
         <SYText size={Sizes.fontScale(13)} text={`TODAS`} color={white_text} />
-      </ItemButton>
+      </ItemButton> */}
       <ItemButton
         style={{
           maxWidth: Sizes.horizontalScale(120),

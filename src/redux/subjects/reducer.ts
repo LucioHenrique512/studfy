@@ -34,6 +34,16 @@ const INIT_STATE: SubjectStateType = {
         note: 90,
       },
     },
+    {
+      id: "todas",
+      name: "Todas as Matérias",
+      abbreviatedName: "TODAS",
+      punctuation: {
+        maxNote: 0,
+        midNote: 0,
+        note: 0,
+      },
+    },
   ],
   selectedSubject: {
     id: "",
