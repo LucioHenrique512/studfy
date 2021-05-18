@@ -6,6 +6,7 @@ import {
   SYTextInput,
   SYText,
   SYSelectInput,
+  SYDatePicker,
 } from "../../../../components";
 import { Formik, validateYupSchema } from "formik";
 import { Sizes } from "../../../../commons";
@@ -37,6 +38,7 @@ export const ActivityForm = () => {
   const formValues = {
     name: "",
     subjectId: "",
+    subjectName: "",
     finishDate: "",
     description: "",
     punctuation: {
@@ -75,7 +77,7 @@ export const ActivityForm = () => {
   };
 
   return (
-    <Container behavior="height" keyboardVerticalOffset={Sizes.fontScale(155)}>
+    <Container behavior="height" keyboardVerticalOffset={Sizes.fontScale(65)}>
       <SYHeader isFullColor title="Nova atividade" />
       <Formik
         initialValues={formValues}
@@ -89,6 +91,7 @@ export const ActivityForm = () => {
           submitForm,
           errors,
           touched,
+          setFieldValue,
         }) => {
           const hasErrors = Object.keys(errors).length !== 0;
           return (
@@ -100,18 +103,12 @@ export const ActivityForm = () => {
                 marginBottom={Sizes.fontScale(10)}
                 marginTop={Sizes.fontScale(10)}
               />
-              <SYTextInput
-                placeholder="Nome da atividade *"
-                onChangeText={handleChange("name")}
-                onBlur={handleBlur("name")}
-                value={values.name}
-                editable={!loading}
-                error={touched.name && !!errors.name}
-                message={touched.name && !!errors.name ? errors.name : ""}
-              />
               <SYSelectInput
                 placeholder="Selecione a materia *"
-                onValueChange={handleChange("subjectId")}
+                onValueChange={(item: any) => {
+                  setFieldValue("subjectId", item);
+                  setFieldValue("subjectName", subjects.itens[item].name);
+                }}
                 onBlur={handleBlur("subjectId")}
                 selectedValue={subjects.itens[values.subjectId]}
                 labelKey={"name"}
@@ -129,6 +126,16 @@ export const ActivityForm = () => {
                 }
               />
               <SYTextInput
+                placeholder="Nome da atividade *"
+                onChangeText={handleChange("name")}
+                onBlur={handleBlur("name")}
+                value={values.name}
+                editable={!loading}
+                error={touched.name && !!errors.name}
+                message={touched.name && !!errors.name ? errors.name : ""}
+              />
+
+              <SYTextInput
                 placeholder="Descrição"
                 onChangeText={handleChange("description")}
                 onBlur={handleBlur("description")}
@@ -141,9 +148,10 @@ export const ActivityForm = () => {
                     : ""
                 }
               />
-              <SYTextInput
-                placeholder="Data de entrega *"
-                onChangeText={handleChange("finishDate")}
+              <SYDatePicker
+                dataPlaceholder="Data de entrega"
+                timePlaceholder="Hora"
+                onChange={handleChange("finishDate")}
                 onBlur={handleBlur("finishDate")}
                 value={values.finishDate}
                 editable={!loading}
@@ -192,7 +200,7 @@ export const ActivityForm = () => {
                 }
               />
               <SYTextInput
-                placeholder="Já possui nota nessa matéria?"
+                placeholder="Já possui nota nessa atividade?"
                 onChangeText={handleChange("punctuation.note")}
                 onBlur={handleBlur("punctuation.note")}
                 value={values.punctuation.note.toString()}
