@@ -56,6 +56,7 @@ export const SubjectForm = () => {
       .push();
 
     databaseRef.set(values).then(() => {
+      setLoading(false);
       navigate("aceptScenne", {
         text: "Matéria salva com sucesso!",
         onAnimationFinish: () => {
@@ -67,7 +68,7 @@ export const SubjectForm = () => {
 
   return (
     <Container behavior="height" keyboardVerticalOffset={Sizes.fontScale(25)}>
-      <SYHeader isFullColor title="Nova matéria" />
+      <SYHeader isFullColor title="Nova disciplina" />
       <Formik
         initialValues={formValues}
         onSubmit={handleSubmitForm}

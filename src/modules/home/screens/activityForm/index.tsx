@@ -62,18 +62,19 @@ export const ActivityForm = () => {
   const handleSubmitForm = (values: typeof formValues) => {
     console.log(values);
 
-    // setLoading(true);
-    // const databaseRef = database()
-    //   .ref(`${DATABASE_REFS.SUBJECTS}/${user.uid}`)
-    //   .push();
-    // databaseRef.set(values).then(() => {
-    //   navigate("aceptScenne", {
-    //     text: "Matéria salva com sucesso!",
-    //     onAnimationFinish: () => {
-    //       navigate("home");
-    //     },
-    //   });
-    // });
+    setLoading(true);
+    const databaseRef = database()
+      .ref(`${DATABASE_REFS.ACTIVITIES}/${user.uid}`)
+      .push();
+
+    databaseRef.set(values).then(() => {
+      navigate("aceptScenne", {
+        text: "Atividade salva com sucesso!",
+        onAnimationFinish: () => {
+          navigate("home");
+        },
+      });
+    });
   };
 
   return (
@@ -107,12 +108,13 @@ export const ActivityForm = () => {
                 placeholder="Selecione a materia *"
                 onValueChange={(item: any) => {
                   setFieldValue("subjectId", item);
-                  setFieldValue("subjectName", subjects.itens[item].name);
+                  setFieldValue("subjectName", subjects.itens[item]?.name);
                 }}
                 onBlur={handleBlur("subjectId")}
                 selectedValue={subjects.itens[values.subjectId]}
                 labelKey={"name"}
                 valueKey={"key"}
+                defaultItemLabel="Selecione uma disciplina"
                 optons={Object.keys(subjects.itens).map((key: any) => ({
                   key,
                   ...subjects.itens[key],

@@ -10,6 +10,7 @@ const statusCodes = {
 export const DATABASE_REFS = {
   USERS: "/users",
   SUBJECTS: "/subjects",
+  ACTIVITIES: "/activities",
 };
 
 export const initGoogleSignin = () => {

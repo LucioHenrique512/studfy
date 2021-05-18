@@ -26,6 +26,7 @@ interface SYSelectInput {
   labelKey: string;
   valueKey: string;
   keyboardType?: KeyboardTypeOptions;
+  defaultItemLabel: string;
 }
 
 export const SYSelectInput = (props: SYSelectInput) => {
@@ -40,8 +41,9 @@ export const SYSelectInput = (props: SYSelectInput) => {
         <StyledPicker
           onValueChange={props.onValueChange}
           selectedValue={props.selectedValue}
+          style={{ color: text_input_text_color }}
         >
-          <Picker.Item label="Selecione uma matéria" value="" />
+          <Picker.Item label={props.defaultItemLabel} value="" />
           {props.optons?.map((item, index) => (
             <Picker.Item
               key={index}
