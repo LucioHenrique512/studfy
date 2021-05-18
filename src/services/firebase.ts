@@ -7,6 +7,11 @@ const statusCodes = {
   PLAY_SERVICES_NOT_AVAILABLE: "PLAY_SERVICES_NOT_AVAILABLE",
 };
 
+export const DATABASE_REFS = {
+  USERS: "/users",
+  SUBJECTS: "/subjects",
+};
+
 export const initGoogleSignin = () => {
   console.log("Firebase:init google signin");
   GoogleSignin.configure({
@@ -24,14 +29,23 @@ export const initGoogleSignin = () => {
   });
 };
 
-export const userDatabase = database().ref("/users");
+export const userDatabase = database().ref(DATABASE_REFS.USERS);
 
 export const signIn = () => {
   return new Promise(async (resolve, reject) => {
     try {
       await GoogleSignin.hasPlayServices();
+
       const userInfo = await GoogleSignin.signIn();
-      resolve(userInfo);
+
+      const userPayload = userInfo.user;
+
+      database()
+        .ref(`${DATABASE_REFS.USERS}/${userPayload.id}`)
+        .set({ ...userPayload, lastLogin: new Date().toISOString() })
+        .then(() => {
+          resolve(userInfo);
+        });
     } catch (error) {
       switch (error.code) {
         case statusCodes.SIGN_IN_CANCELLED:

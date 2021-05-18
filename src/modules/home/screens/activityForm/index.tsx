@@ -5,8 +5,9 @@ import {
   SYButton,
   SYTextInput,
   SYText,
+  SYSelectInput,
 } from "../../../../components";
-import { Formik } from "formik";
+import { Formik, validateYupSchema } from "formik";
 import { Sizes } from "../../../../commons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
@@ -18,19 +19,25 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/types";
 import { SessionType } from "../../../../redux/session/types";
 import { useNavigation } from "@react-navigation/core";
+import { SubjectStateType } from "../../../../redux/subjects/types";
 
-export const SubjectForm = () => {
+export const ActivityForm = () => {
   const [loading, setLoading] = useState(false);
   const { white_text } = useTheme();
   const { user }: SessionType = useSelector(
     (state: RootState) => state.session
   );
 
+  const subjects: SubjectStateType = useSelector(
+    (state: RootState) => state.subjects
+  );
+
   const { navigate } = useNavigation();
 
   const formValues = {
     name: "",
-    abbreviatedName: "",
+    subjectId: "",
+    finishDate: "",
     description: "",
     punctuation: {
       maxNote: "",
@@ -40,8 +47,10 @@ export const SubjectForm = () => {
   };
 
   const formValidationSchema = Yup.object().shape({
-    name: Yup.string().required("Favor insira o nome da diciplina."),
-    abbreviatedName: Yup.string().required("Favor insira uma abreviação."),
+    name: Yup.string().required("Favor insira o nome da atividade."),
+    subjectId: Yup.string().required("Favor selecione uma matéria"),
+    finishDate: Yup.string().required("Favor insira a data de entrega."),
+    description: Yup.string().required("Favor insira a data de entrega."),
     punctuation: Yup.object().shape({
       maxNote: Yup.number().required("Insirra a nota máxima da diciplina."),
       midNote: Yup.number().required("Insirra a nota média da diciplina."),
@@ -49,25 +58,25 @@ export const SubjectForm = () => {
   });
 
   const handleSubmitForm = (values: typeof formValues) => {
-    setLoading(true);
+    console.log(values);
 
-    const databaseRef = database()
-      .ref(`${DATABASE_REFS.SUBJECTS}/${user.uid}`)
-      .push();
-
-    databaseRef.set(values).then(() => {
-      navigate("aceptScenne", {
-        text: "Matéria salva com sucesso!",
-        onAnimationFinish: () => {
-          navigate("home");
-        },
-      });
-    });
+    // setLoading(true);
+    // const databaseRef = database()
+    //   .ref(`${DATABASE_REFS.SUBJECTS}/${user.uid}`)
+    //   .push();
+    // databaseRef.set(values).then(() => {
+    //   navigate("aceptScenne", {
+    //     text: "Matéria salva com sucesso!",
+    //     onAnimationFinish: () => {
+    //       navigate("home");
+    //     },
+    //   });
+    // });
   };
 
   return (
-    <Container behavior="height" keyboardVerticalOffset={Sizes.fontScale(25)}>
-      <SYHeader isFullColor title="Nova matéria" />
+    <Container behavior="height" keyboardVerticalOffset={Sizes.fontScale(155)}>
+      <SYHeader isFullColor title="Nova atividade" />
       <Formik
         initialValues={formValues}
         onSubmit={handleSubmitForm}
@@ -92,7 +101,7 @@ export const SubjectForm = () => {
                 marginTop={Sizes.fontScale(10)}
               />
               <SYTextInput
-                placeholder="Nome da diciplina *"
+                placeholder="Nome da atividade *"
                 onChangeText={handleChange("name")}
                 onBlur={handleBlur("name")}
                 value={values.name}
@@ -100,16 +109,22 @@ export const SubjectForm = () => {
                 error={touched.name && !!errors.name}
                 message={touched.name && !!errors.name ? errors.name : ""}
               />
-              <SYTextInput
-                placeholder="Nome abreviado *"
-                onChangeText={handleChange("abbreviatedName")}
-                onBlur={handleBlur("abbreviatedName")}
-                value={values.abbreviatedName}
+              <SYSelectInput
+                placeholder="Selecione a materia *"
+                onValueChange={handleChange("subjectId")}
+                onBlur={handleBlur("subjectId")}
+                selectedValue={subjects.itens[values.subjectId]}
+                labelKey={"name"}
+                valueKey={"key"}
+                optons={Object.keys(subjects.itens).map((key: any) => ({
+                  key,
+                  ...subjects.itens[key],
+                }))}
                 editable={!loading}
-                error={touched.abbreviatedName && !!errors.abbreviatedName}
+                error={touched.subjectId && !!errors.subjectId}
                 message={
-                  touched.abbreviatedName && !!errors.abbreviatedName
-                    ? errors.abbreviatedName
+                  touched.subjectId && !!errors.subjectId
+                    ? errors.subjectId
                     : ""
                 }
               />
@@ -123,6 +138,19 @@ export const SubjectForm = () => {
                 message={
                   touched.description && !!errors.description
                     ? errors.description
+                    : ""
+                }
+              />
+              <SYTextInput
+                placeholder="Data de entrega *"
+                onChangeText={handleChange("finishDate")}
+                onBlur={handleBlur("finishDate")}
+                value={values.finishDate}
+                editable={!loading}
+                error={touched.finishDate && !!errors.finishDate}
+                message={
+                  touched.finishDate && !!errors.finishDate
+                    ? errors.finishDate
                     : ""
                 }
               />
@@ -182,6 +210,7 @@ export const SubjectForm = () => {
                 disabled={loading || hasErrors}
                 onPress={submitForm}
                 loading={loading}
+                marginBottom={Sizes.horizontalScale(25)}
                 icon={
                   <FontAwesome5
                     name="sd-card"

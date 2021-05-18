@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SYButton, SYText, SYTextInput } from "../../../../components";
 import { sessionLogoutUser } from "../../../../redux/session/actions";
@@ -19,13 +19,19 @@ import { View, ListRenderItem } from "react-native";
 import { Sizes } from "../../../../commons";
 import { ActivityStateType } from "../../../../redux/activities/types";
 import { SubjectStateType } from "../../../../redux/subjects/types";
-import { SetSelectedSubject } from "../../../../redux/subjects/actions";
+import {
+  CleanSubjectsData,
+  SetSelectedSubject,
+  SetSubjectList,
+} from "../../../../redux/subjects/actions";
 import { useTheme } from "styled-components";
 import { FontAwesome5 } from "@expo/vector-icons";
+import database from "@react-native-firebase/database";
+import { DATABASE_REFS } from "../../../../services/firebase";
 
 export const HomeScreen = () => {
   const dispatch = useDispatch();
-  const { navigate } = useNavigation();
+  const { navigate, addListener } = useNavigation();
 
   const { user }: SessionType = useSelector(
     (store: RootState) => store.session
@@ -41,9 +47,20 @@ export const HomeScreen = () => {
 
   const { background, white_text } = useTheme();
 
+  useEffect(() => {
+    database()
+      .ref(`${DATABASE_REFS.SUBJECTS}/${user.uid}`)
+      .on("value", (snapshot) => {
+        const subjects = snapshot.val();
+
+        dispatch(SetSubjectList(subjects));
+      });
+  }, [user.uid]);
+
   const handleLogout = () => {
     signOut().then(() => {
       dispatch(sessionLogoutUser());
+      dispatch(CleanSubjectsData());
     });
   };
 
@@ -97,9 +114,11 @@ export const HomeScreen = () => {
           marginHorizontal: Sizes.verticalScale(19),
         }}
       >
-        {/* <SYButton onPress={handleLogout} text={"LOGOUT"} linkStyle /> */}
         <SYButton
           text={"ADICIONAR ATIVIDADE"}
+          onPress={() => {
+            navigate("activityForm");
+          }}
           icon={
             <FontAwesome5
               name="plus"
@@ -108,6 +127,7 @@ export const HomeScreen = () => {
             />
           }
         />
+        {/* <SYButton onPress={handleLogout} text={"LOGOUT"} linkStyle /> */}
       </View>
     );
   };

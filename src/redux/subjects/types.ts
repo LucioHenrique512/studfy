@@ -1,6 +1,6 @@
 import { SubjectType } from "../../types";
 
 export type SubjectStateType = {
-  itens: Array<SubjectType>;
+  itens: any;
   selectedSubject: SubjectType;
 };

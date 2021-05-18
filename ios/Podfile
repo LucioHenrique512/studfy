@@ -22,4 +22,8 @@ target 'studfy' do
 
   pod 'RNFBDatabase', :path => '../node_modules/@react-native-firebase/database'
 
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
+  pod 'RNCPicker', :path => '../node_modules/@react-native-picker/picker'
+
 end

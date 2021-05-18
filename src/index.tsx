@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { OnboardingNavigation, HomeNavigation } from "./modules";
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "styled-components";

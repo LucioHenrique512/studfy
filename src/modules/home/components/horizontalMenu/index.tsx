@@ -21,21 +21,22 @@ export const HorizontalMenu = ({
 
   return (
     <Container horizontal showsHorizontalScrollIndicator={false}>
-      {subjects.map((item) => (
-        <ItemButton
-          selected={item.id === selectedSubject.id}
-          onPress={() => {
-            onPressSubject(item);
-          }}
-          key={item.id}
-        >
-          <SYText
-            size={Sizes.fontScale(13)}
-            text={`${item.abbreviatedName}`}
-            color={item.id === selectedSubject.id ? white_text : undefined}
-          />
-        </ItemButton>
-      ))}
+      {subjects &&
+        Object.keys(subjects).map((key: any) => (
+          <ItemButton
+            selected={key === selectedSubject.id}
+            onPress={() => {
+              onPressSubject({ ...subjects[key], id: key });
+            }}
+            key={key}
+          >
+            <SYText
+              size={Sizes.fontScale(13)}
+              text={`${subjects[key].abbreviatedName}`}
+              color={key === selectedSubject.id ? white_text : undefined}
+            />
+          </ItemButton>
+        ))}
       {/* <ItemButton
         style={{
           maxWidth: Sizes.horizontalScale(120),

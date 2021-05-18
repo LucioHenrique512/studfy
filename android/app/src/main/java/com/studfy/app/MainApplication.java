@@ -6,6 +6,8 @@ import android.net.Uri;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.picker.RNCPickerPackage;
+import com.airbnb.android.react.lottie.LottiePackage;
 import io.invertase.firebase.database.ReactNativeFirebaseDatabasePackage;
 import com.horcrux.svg.SvgPackage;
 import com.facebook.react.ReactInstanceManager;

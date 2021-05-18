@@ -11,7 +11,7 @@ export const CircularProgress = ({
   maxValue,
   midValue,
 }: {
-  value: number;
+  value: any;
   maxValue: number;
   midValue: number;
 }) => {
@@ -64,7 +64,7 @@ export const CircularProgress = ({
   return (
     <Container>
       <SYText
-        text={`${progress}/${maxValue}`}
+        text={`${progress === "" ? 0 : progress}/${maxValue}`}
         style={{ position: "absolute" }}
         textAlign="center"
       />
