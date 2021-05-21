@@ -28,6 +28,10 @@ import { useTheme } from "styled-components";
 import { FontAwesome5 } from "@expo/vector-icons";
 import database from "@react-native-firebase/database";
 import { DATABASE_REFS } from "../../../../services/firebase";
+import {
+  CleanActivitiesList,
+  SetActivitiesList,
+} from "../../../../redux/activities/actions";
 
 export const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -57,10 +61,21 @@ export const HomeScreen = () => {
       });
   }, [user.uid]);
 
+  useEffect(() => {
+    database()
+      .ref(`${DATABASE_REFS.ACTIVITIES}/${user.uid}`)
+      .on("value", (snapshot) => {
+        const activities = snapshot.val();
+        //console.log("activities ->", activities);
+        dispatch(SetActivitiesList(activities));
+      });
+  }, [user.uid]);
+
   const handleLogout = () => {
     signOut().then(() => {
       dispatch(sessionLogoutUser());
       dispatch(CleanSubjectsData());
+      dispatch(CleanActivitiesList());
     });
   };
 
@@ -127,7 +142,7 @@ export const HomeScreen = () => {
             />
           }
         />
-        {/* <SYButton onPress={handleLogout} text={"LOGOUT"} linkStyle /> */}
+        <SYButton onPress={handleLogout} text={"LOGOUT"} linkStyle />
       </View>
     );
   };
@@ -135,7 +150,14 @@ export const HomeScreen = () => {
   return (
     <View style={{ paddingBottom: Sizes.fontScale(45) }}>
       <Container
-        sections={[{ data: activities.itens }]}
+        sections={[
+          {
+            data: Object.keys(activities.itens).map((key: any) => ({
+              ...activities.itens[key],
+              id: key,
+            })),
+          },
+        ]}
         stickyHeaderIndices={[0]}
         stickySectionHeadersEnabled
         renderItem={RenderItem}
