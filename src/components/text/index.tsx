@@ -1,5 +1,6 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styled from "styled-components/native";
+import { Sizes } from "../../commons";
 
 interface TextProps {
   text?: string | number;
@@ -22,17 +23,31 @@ interface TextProps {
   marginBottom?: number;
   textDecoration?: "underline" | "none";
   style?: any;
+  startIcon?: ReactNode;
 }
 
 export const SYText = (props: TextProps) => (
-  <StyledText {...props}>{props.text}</StyledText>
+  <Container marginTop={props.marginTop} marginBottom={props.marginBottom}>
+    {!!props.startIcon && <IconContainer>{props.startIcon}</IconContainer>}
+    <StyledText {...props}>{props.text}</StyledText>
+  </Container>
 );
+
+const Container = styled.View<TextProps>`
+  flex-direction: row;
+  margin-top: ${({ marginTop }) => (marginTop ? marginTop : 0)}px;
+  margin-bottom: ${({ marginBottom }) => (marginBottom ? marginBottom : 0)}px;
+`;
+
+const IconContainer = styled.View`
+  align-items: center;
+  justify-content: center;
+  margin-right: ${Sizes.horizontalScale(5)}px;
+`;
 
 const StyledText = styled.Text<TextProps>`
   font-size: ${({ size }) => (size ? size : 15)}px;
   font-weight: ${({ fontWeight }) => (fontWeight ? fontWeight : 500)};
-  margin-top: ${({ marginTop }) => (marginTop ? marginTop : 0)}px;
-  margin-bottom: ${({ marginBottom }) => (marginBottom ? marginBottom : 0)}px;
   text-decoration: ${({ textDecoration }) =>
     textDecoration ? textDecoration : "none"};
   color: ${({ color, secondary, theme }) =>

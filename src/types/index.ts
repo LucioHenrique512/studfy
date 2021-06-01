@@ -21,6 +21,8 @@ export type ActivityType = {
   id: string;
   name: string;
   subjectId: string;
+  subjectName: string;
+  description: string;
   punctuation: {
     maxNote: number;
     midNote: number;

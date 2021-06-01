@@ -25,6 +25,7 @@ export const CircularProgress = ({
   const progressRef = useRef<any>(null);
   const [lastProgress, setLastProgress] = useState(CIRCUMFERENCE - progress);
   const { Value } = Animated;
+  const [textValue, setTextValue] = useState(0);
 
   const progressAnimation = useRef(new Value(lastProgress)).current;
 
@@ -45,6 +46,7 @@ export const CircularProgress = ({
 
   useEffect(() => {
     progressAnimation.addListener((value) => {
+      setTextValue((value.value / CIRCUMFERENCE) * 100);
       if (progressRef?.current) {
         progressRef.current.setNativeProps({
           strokeDashoffset: CIRCUMFERENCE - value.value,
@@ -63,11 +65,9 @@ export const CircularProgress = ({
 
   return (
     <Container>
-      <SYText
-        text={`${progress === "" ? 0 : progress}/${maxValue}`}
-        style={{ position: "absolute" }}
-        textAlign="center"
-      />
+      <Animated.Text style={{ position: "absolute" }}>
+        {`${`${textValue.toFixed(1)}`.replace(".", ",")}/${maxValue}`}
+      </Animated.Text>
       <Svg height={SIZE} width={SIZE}>
         <AnimatedCircle
           cx={SIZE / 2}

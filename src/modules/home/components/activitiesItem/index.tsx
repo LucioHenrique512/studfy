@@ -4,8 +4,10 @@ import { Sizes } from "../../../../commons";
 import { SYText } from "../../../../components";
 import { ActivityType } from "../../../../types";
 import { ProgressBar } from "../progressBar";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 export const ActivitiesItem = ({ activity }: { activity: ActivityType }) => {
+  console.log("ATIVIDADE ->", activity);
   return (
     <Container>
       <CardContainer>
@@ -21,9 +23,16 @@ export const ActivitiesItem = ({ activity }: { activity: ActivityType }) => {
               />
             </TitleContainer>
             <SYText
-              text={"activity.activity"}
+              text={activity.subjectName}
               size={Sizes.fontScale(12)}
               secondary
+            />
+            <SYText
+              text={`${activity.description}`}
+              size={Sizes.fontScale(12)}
+              marginTop={Sizes.verticalScale(4)}
+              secondary
+              startIcon={<FontAwesome5 name="comment-alt" />}
             />
           </TopContainer>
           <BottomContainer>
@@ -49,7 +58,7 @@ const Container = styled.View`
 
 const CardContainer = styled.View`
   width: ${Sizes.horizontalScale(317)}px;
-  height: ${Sizes.verticalScale(73)}px;
+  height: ${Sizes.verticalScale(90)}px;
   background: ${({ theme }) => theme.foreground};
   border-radius: ${Sizes.fontScale(8)}px;
   border-width: 1px;

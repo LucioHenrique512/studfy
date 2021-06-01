@@ -10,7 +10,9 @@ const guidelineBaseHeight = 640;
 
 export const horizontalScale = (size: any) =>
   (SCREEN_WIDTH / guidelineBaseWidth) * size;
+
 export const verticalScale = (size: any) =>
   (SCREEN_HEIGHT / guidelineBaseHeight) * size;
+  
 export const fontScale = (size: any, factor = 0.5) =>
   parseInt(size + (horizontalScale(size) - size) * factor, 10);
