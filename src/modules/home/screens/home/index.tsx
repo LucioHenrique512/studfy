@@ -152,8 +152,8 @@ export const HomeScreen = () => {
       <Container
         sections={[
           {
-            data: Object.keys(activities.itens).map((key: any) => ({
-              ...activities.itens[key],
+            data: Object.keys(activities?.itens).map((key: any) => ({
+              ...activities?.itens[key],
               id: key,
             })),
           },

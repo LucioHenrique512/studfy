@@ -7,18 +7,7 @@ import {
 } from "./actions";
 
 const INIT_STATE: SubjectStateType = {
-  itens: [
-    // {
-    //   id: "unico2",
-    //   name: "Programação Orientada a Objetos, 1",
-    //   abbreviatedName: "POO 1",
-    //   punctuation: {
-    //     maxNote: 100,
-    //     midNote: 70,
-    //     note: 30,
-    //   },
-    // }
-  ],
+  itens: {},
   selectedSubject: {
     id: "",
     name: "",
@@ -34,7 +23,7 @@ const subjects = (state = INIT_STATE, action: ActionType) => {
     case SET_SUBJECT_LIST:
       return {
         ...state,
-        itens: action.payload,
+        itens: action.payload ? action.payload : {},
       };
     case CLEAN_SUBJECTS_DATA:
       return INIT_STATE;

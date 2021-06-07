@@ -46,7 +46,8 @@ export const signIn = () => {
         .set({ ...userPayload, lastLogin: new Date().toISOString() })
         .then(() => {
           resolve(userInfo);
-        });
+        })
+        .catch(reject);
     } catch (error) {
       switch (error.code) {
         case statusCodes.SIGN_IN_CANCELLED:
