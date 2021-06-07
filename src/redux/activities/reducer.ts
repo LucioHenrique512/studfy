@@ -7,7 +7,6 @@ const INIT_STATE: ActivityStateType = {
 };
 
 const activities = (state = INIT_STATE, action: ActionType) => {
-  console.log(action.type, "->", action.payload);
   switch (action.type) {
     case SET_ACTIVITIES_LIST:
       return {

@@ -132,7 +132,14 @@ export const HomeScreen = () => {
         <SYButton
           text={"ADICIONAR ATIVIDADE"}
           onPress={() => {
-            navigate("activityForm");
+            if (Object.keys(subjects.itens).length === 0) {
+              showToast({
+                text1: "Adicione uma diciplina primeiro!",
+                type: "error",
+              });
+            } else {
+              navigate("activityForm");
+            }
           }}
           icon={
             <FontAwesome5
