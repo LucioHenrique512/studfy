@@ -1,13 +1,15 @@
 import { ActionType } from "../types";
 import { SubjectStateType } from "./types";
 import {
-  SET_SELECTED_SUBJECT,
+  UPDATE_SELECTED_SUBJECT,
+  SET_SELECTED_SUBJECT_ID,
   SET_SUBJECT_LIST,
   CLEAN_SUBJECTS_DATA,
 } from "./actions";
 
 const INIT_STATE: SubjectStateType = {
   itens: {},
+  selectedSubjectId: "",
   selectedSubject: {
     id: "",
     name: "",
@@ -18,8 +20,15 @@ const INIT_STATE: SubjectStateType = {
 
 const subjects = (state = INIT_STATE, action: ActionType) => {
   switch (action.type) {
-    case SET_SELECTED_SUBJECT:
-      return { ...state, selectedSubject: action.payload };
+    case SET_SELECTED_SUBJECT_ID:
+      return { ...state, selectedSubjectId: action.payload };
+    case UPDATE_SELECTED_SUBJECT:
+      return {
+        ...state,
+        selectedSubject: action.payload
+          ? action.payload
+          : INIT_STATE.selectedSubject,
+      };
     case SET_SUBJECT_LIST:
       return {
         ...state,

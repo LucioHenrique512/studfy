@@ -23,9 +23,25 @@ export type ActivityType = {
   subjectId: string;
   subjectName: string;
   description: string;
+  finished?: boolean;
+  finishDate: string;
   punctuation: {
     maxNote: number;
     midNote: number;
     note: number;
   };
+};
+
+export const InitActivityValue = {
+  id: "",
+  name: "",
+  subjectId: "",
+  subjectName: "",
+  description: "",
+  finishDate: "",
+  punctuation: {
+    maxNote: 0,
+    midNote: 0,
+    note: 0,
+  },
 };

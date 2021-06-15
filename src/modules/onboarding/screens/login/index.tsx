@@ -38,7 +38,6 @@ export const LoginScreen = () => {
   };
 
   const handleLogin = (platform: string) => {
-    console.log("Sigin with ", platform);
     setLoading(platform);
     signIn()
       .then((response) => {
@@ -65,7 +64,6 @@ export const LoginScreen = () => {
           text1: "Erro",
           text2: error.message,
         });
-        console.log("DEU ERRO ->", error);
       });
   };
 

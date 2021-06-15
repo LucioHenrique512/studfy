@@ -5,25 +5,76 @@ import { Sizes } from "../../../../commons";
 import { SYText } from "../../../../components";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { SubjectType } from "../../../../types";
+import { Text, View } from "react-native";
 
 export const HorizontalMenu = ({
   subjects,
   onPressAddSubject,
   onPressSubject,
-  selectedSubject,
+  selectedSubjectId,
 }: {
   subjects: Array<SubjectType>;
   onPressSubject: (subject: SubjectType) => void;
   onPressAddSubject: () => void;
-  selectedSubject: SubjectType;
+  selectedSubjectId: string;
 }) => {
   const { white_text } = useTheme();
 
   return (
-    <Container horizontal showsHorizontalScrollIndicator={false}>
-      {subjects &&
-        Object.keys(subjects).map((key: any) => (
+    <Container
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      data={Object.keys(subjects).map((key: any) => ({
+        ...subjects[key],
+        id: key,
+      }))}
+      renderItem={({ item }: { item: any }) => {
+        return (
           <ItemButton
+            selected={item.id === selectedSubjectId}
+            onPress={() => {
+              onPressSubject(item);
+            }}
+            key={item.id}
+          >
+            <SYText
+              size={Sizes.fontScale(13)}
+              text={`${item.abbreviatedName}`}
+              color={item.id === selectedSubjectId ? white_text : undefined}
+            />
+          </ItemButton>
+        );
+      }}
+      ListFooterComponent={() => (
+        <View>
+          <ItemButton
+            style={{
+              maxWidth: Sizes.horizontalScale(120),
+              marginRight: Sizes.horizontalScale(24),
+            }}
+            selected={true}
+            onPress={onPressAddSubject}
+          >
+            <FontAwesome5
+              name={"plus"}
+              style={{ marginRight: 10 }}
+              color={white_text}
+            />
+
+            <SYText
+              size={Sizes.fontScale(13)}
+              text={"ADICIONAR"}
+              color={white_text}
+            />
+          </ItemButton>
+        </View>
+      )}
+    />
+  );
+};
+
+/*
+<ItemButton
             selected={key === selectedSubject.id}
             onPress={() => {
               onPressSubject({ ...subjects[key], id: key });
@@ -36,8 +87,12 @@ export const HorizontalMenu = ({
               color={key === selectedSubject.id ? white_text : undefined}
             />
           </ItemButton>
-        ))}
-      {/* <ItemButton
+
+*/
+
+/*
+
+ <ItemButton
         style={{
           maxWidth: Sizes.horizontalScale(120),
         }}
@@ -45,8 +100,8 @@ export const HorizontalMenu = ({
         onPress={onPressAddSubject}
       >
         <SYText size={Sizes.fontScale(13)} text={`TODAS`} color={white_text} />
-      </ItemButton> */}
-      <ItemButton
+      </ItemButton> 
+       <ItemButton
         style={{
           maxWidth: Sizes.horizontalScale(120),
           marginRight: Sizes.horizontalScale(24),
@@ -65,12 +120,10 @@ export const HorizontalMenu = ({
           text={"ADICIONAR"}
           color={white_text}
         />
-      </ItemButton>
-    </Container>
-  );
-};
+      </ItemButton> 
 
-const Container = styled.ScrollView`
+*/
+const Container = styled.FlatList`
   height: ${Sizes.horizontalScale(45)}px;
 `;
 

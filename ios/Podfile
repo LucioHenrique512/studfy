@@ -28,4 +28,6 @@ target 'studfy' do
 
   pod 'RNDateTimePicker', :path => '../node_modules/@react-native-community/datetimepicker'
 
+  pod 'react-native-context-menu-view', :path => '../node_modules/react-native-context-menu-view'
+
 end

@@ -8,7 +8,7 @@ import {
   SYSelectInput,
   SYDatePicker,
 } from "../../../../components";
-import { Formik, validateYupSchema } from "formik";
+import { Formik, useFormikContext, validateYupSchema } from "formik";
 import { Sizes } from "../../../../commons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useTheme } from "styled-components/native";
@@ -22,9 +22,29 @@ import { SessionType } from "../../../../redux/session/types";
 import { useNavigation } from "@react-navigation/core";
 import { SubjectStateType } from "../../../../redux/subjects/types";
 
-export const ActivityForm = () => {
+const AutoFillFields = ({ activity }: any) => {
+  const { setFieldValue, setErrors } = useFormikContext();
+
+  React.useEffect(() => {
+    if (activity) {
+      setFieldValue("name", activity.name);
+      setFieldValue("finishDate", activity.finishDate);
+      setFieldValue("description", activity.description);
+      setFieldValue("punctuation.maxNote", activity.punctuation.maxNote);
+      setFieldValue("punctuation.midNote", activity.punctuation.midNote);
+      setFieldValue("punctuation.note", activity.punctuation.note);
+    }
+  }, [activity]);
+
+  return null;
+};
+
+export const ActivityForm = (props: any) => {
   const [loading, setLoading] = useState(false);
   const { white_text } = useTheme();
+
+  const activity = props.route.params?.activity;
+
   const { user }: SessionType = useSelector(
     (state: RootState) => state.session
   );
@@ -52,7 +72,6 @@ export const ActivityForm = () => {
     name: Yup.string().required("Favor insira o nome da atividade."),
     subjectId: Yup.string().required("Favor selecione uma matéria"),
     finishDate: Yup.string().required("Favor insira a data de entrega."),
-    description: Yup.string().required("Favor insira a data de entrega."),
     punctuation: Yup.object().shape({
       maxNote: Yup.number().required("Insirra a nota máxima da diciplina."),
       midNote: Yup.number().required("Insirra a nota média da diciplina."),
@@ -60,20 +79,49 @@ export const ActivityForm = () => {
   });
 
   const handleSubmitForm = (values: typeof formValues) => {
-    console.log(values);
-
     setLoading(true);
-    const databaseRef = database()
+    const activitesRef = database()
       .ref(`${DATABASE_REFS.ACTIVITIES}/${user.uid}`)
       .push();
 
-    databaseRef.set(values).then(() => {
-      navigate("aceptScenne", {
-        text: "Atividade salva com sucesso!",
-        onAnimationFinish: () => {
-          navigate("home");
-        },
+    if (activity) {
+      database()
+        .ref(`${DATABASE_REFS.ACTIVITIES}/${user.uid}/${activity?.id}`)
+        .update(values)
+        .then(() => {
+          handleSaveSucsess("Atividade editada com sucesso!");
+        });
+    } else {
+      activitesRef.set(values).then(() => {
+        if (values.punctuation.note !== "") {
+          const updates: any = {};
+
+          updates[
+            `${DATABASE_REFS.SUBJECTS}/${user.uid}/${values.subjectId}/punctuation/note`
+          ] = database.ServerValue.increment(
+            parseFloat(values.punctuation.note)
+          );
+
+          database()
+            .ref()
+            .update(updates)
+            .then(() => {
+              handleSaveSucsess("Atividade salva com sucesso!");
+            });
+        } else {
+          handleSaveSucsess("Atividade salva com sucesso!");
+        }
       });
+    }
+  };
+
+  const handleSaveSucsess = (message: string) => {
+    setLoading(false);
+    navigate("aceptScenne", {
+      text: message,
+      onAnimationFinish: () => {
+        navigate("home");
+      },
     });
   };
 
@@ -94,7 +142,9 @@ export const ActivityForm = () => {
           touched,
           setFieldValue,
         }) => {
-          const hasErrors = Object.keys(errors).length !== 0;
+          const hasErrors = !!activity
+            ? !!!activity
+            : Object.keys(errors).length !== 0;
           return (
             <FormContainer>
               <SYText
@@ -229,6 +279,7 @@ export const ActivityForm = () => {
                   />
                 }
               />
+              <AutoFillFields activity={activity} />
             </FormContainer>
           );
         }}

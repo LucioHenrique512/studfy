@@ -5,47 +5,99 @@ import { SYText } from "../../../../components";
 import { ActivityType } from "../../../../types";
 import { ProgressBar } from "../progressBar";
 import { FontAwesome5 } from "@expo/vector-icons";
+import ContextMenu from "react-native-context-menu-view";
+import { isoToBrDate } from "../../../../utils/dateFormat";
 
-export const ActivitiesItem = ({ activity }: { activity: ActivityType }) => {
-  console.log("ATIVIDADE ->", activity);
+export const ActivitiesItem = ({
+  activity,
+  handleFinishActivity,
+  handleEditActivity,
+  handleDeleteActivity,
+}: {
+  activity: ActivityType;
+  handleFinishActivity: (activity: ActivityType) => void;
+  handleEditActivity: (activity: ActivityType) => void;
+  handleDeleteActivity: (activity: ActivityType) => void;
+}) => {
+  const contextActions = activity.finished
+    ? [{ title: "Excluir" }]
+    : [
+        { title: "Concluir atividade" },
+        { title: "Editar" },
+        { title: "Excluir" },
+      ];
+
   return (
     <Container>
-      <CardContainer>
-        <CardBody>
-          <TopContainer>
-            <TitleContainer>
-              <SYText text={activity.name} />
+      <ContextMenu
+        actions={contextActions}
+        onPress={(event) => {
+          const pressed = {
+            name: event.nativeEvent.name,
+            index: event.nativeEvent.index,
+          };
+          switch (pressed.name) {
+            case "Concluir atividade":
+              handleFinishActivity(activity);
+              break;
+            case "Editar":
+              handleEditActivity(activity);
+              break;
+            case "Excluir":
+              handleDeleteActivity(activity);
+              break;
+            default:
+              return;
+          }
+        }}
+      >
+        <CardContainer>
+          <CardBody>
+            <TopContainer>
+              <TitleContainer>
+                <SYText text={activity.name} />
+                <SYText
+                  text={`${
+                    !activity.finished
+                      ? `Entrega: ${isoToBrDate(activity.finishDate)}`
+                      : `Atividade concluida!`
+                  }`}
+                  secondary
+                  size={Sizes.fontScale(10)}
+                  fontWeight="bold"
+                />
+              </TitleContainer>
               <SYText
-                text={"Entrega: 10/04/1996"}
+                text={activity.subjectName}
+                size={Sizes.fontScale(12)}
                 secondary
-                size={Sizes.fontScale(10)}
-                fontWeight="bold"
               />
-            </TitleContainer>
-            <SYText
-              text={activity.subjectName}
-              size={Sizes.fontScale(12)}
-              secondary
-            />
-            <SYText
-              text={`${activity.description}`}
-              size={Sizes.fontScale(12)}
-              marginTop={Sizes.verticalScale(4)}
-              secondary
-              startIcon={<FontAwesome5 name="comment-alt" />}
-            />
-          </TopContainer>
-          <BottomContainer>
-            <SYText text={"Nota 10/20"} size={Sizes.fontScale(12)} secondary />
-            <ProgressBar
-              maxValue={activity.punctuation.maxNote}
-              midValue={activity.punctuation.midNote}
-              value={activity.punctuation.note}
-              width={Sizes.horizontalScale(211)}
-            />
-          </BottomContainer>
-        </CardBody>
-      </CardContainer>
+              <SYText
+                text={`${activity.description}`}
+                size={Sizes.fontScale(12)}
+                marginTop={Sizes.verticalScale(4)}
+                secondary
+                startIcon={<FontAwesome5 name="comment-alt" />}
+              />
+            </TopContainer>
+            <BottomContainer>
+              <SYText
+                text={`Nota ${Math.round(
+                  activity.punctuation.note
+                )}/${Math.round(activity.punctuation.maxNote)}`}
+                size={Sizes.fontScale(12)}
+                secondary
+              />
+              <ProgressBar
+                maxValue={activity.punctuation.maxNote}
+                midValue={activity.punctuation.midNote}
+                value={activity.punctuation.note}
+                width={Sizes.horizontalScale(211)}
+              />
+            </BottomContainer>
+          </CardBody>
+        </CardContainer>
+      </ContextMenu>
     </Container>
   );
 };

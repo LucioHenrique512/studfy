@@ -7,16 +7,29 @@ import { useTheme } from "styled-components";
 
 export const AnimScenne = (props: any) => {
   const animationRef = useRef(null);
-  const { success_color } = useTheme();
+  const { success_color, primary } = useTheme();
 
   const { onAnimationFinish, text } = props.route.params;
+  const animationType = props.route.params.animationType;
+
+  const getAnimation = (animationType: any) => {
+    console.log("animationType", animationType);
+    switch (animationType) {
+      case "ok":
+        return require("../../../../assets/animation/acept.json");
+      case "rocket":
+        return require("../../../../assets/animation/rocket.json");
+      default:
+        return require("../../../../assets/animation/acept.json");
+    }
+  };
 
   return (
     <Container>
       <LottieView
         style={{ width: Sizes.fontScale(320) }}
         ref={animationRef}
-        source={require("../../../../assets/animation/acept.json")}
+        source={getAnimation(animationType)}
         autoPlay
         loop={false}
         onAnimationFinish={() => {
@@ -28,7 +41,7 @@ export const AnimScenne = (props: any) => {
         marginTop={Sizes.fontScale(20)}
         fontWeight="bold"
         size={Sizes.fontScale(25)}
-        color={success_color}
+        color={!!animationType ? primary : success_color}
       />
     </Container>
   );

@@ -23,7 +23,6 @@ export const Routes = () => {
     (store: RootState) => store.session
   );
 
-  console.log("SESSION ->", { user, credentials });
 
   return (
     <>

@@ -6,6 +6,7 @@ import android.net.Uri;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.mpiannucci.reactnativecontextmenu.ContextMenuPackage;
 import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 import com.reactnativecommunity.picker.RNCPickerPackage;
 import com.airbnb.android.react.lottie.LottiePackage;

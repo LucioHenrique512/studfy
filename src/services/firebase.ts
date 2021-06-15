@@ -14,7 +14,6 @@ export const DATABASE_REFS = {
 };
 
 export const initGoogleSignin = () => {
-  console.log("Firebase:init google signin");
   GoogleSignin.configure({
     scopes: ["profile", "email"], // what API you want to access on behalf of the user, default is email and profile
     webClientId:
@@ -63,7 +62,6 @@ export const signIn = () => {
           });
           break;
         default:
-          console.log("erro não identificado ->", error.message);
           reject({
             message: "Ocorreu um erro não identificado.",
             statusCode: error.code,

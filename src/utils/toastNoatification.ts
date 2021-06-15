@@ -17,17 +17,19 @@ interface Options {
   props?: any;
 }
 
+const offset =
+  Platform.OS === "android"
+    ? Sizes.horizontalScale(60)
+    : Sizes.horizontalScale(40);
+
 export const showToast = (options: Options) =>
   Toast.show({
     ...options,
     visibilityTime: 4000,
-    position: "top",
+    position: "bottom",
     autoHide: true,
-    topOffset:
-      Platform.OS === "android"
-        ? Sizes.horizontalScale(60)
-        : Sizes.horizontalScale(40),
-    bottomOffset: 40,
+    topOffset: offset,
+    bottomOffset: offset,
   });
 
 export const hideToast = () => Toast.hide();

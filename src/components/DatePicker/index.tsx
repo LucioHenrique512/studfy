@@ -44,7 +44,6 @@ export const SYDatePicker = (props: DatePickerProps) => {
   const handleChange = (event: any) => {
     setShow(Platform.OS === "ios");
     if (props.onChange && !!event.nativeEvent.timestamp) {
-      console.log(event.nativeEvent.timestamp);
       setValue(new Date(event.nativeEvent.timestamp));
       props.onChange(new Date(event.nativeEvent.timestamp).toISOString());
     }

@@ -9,15 +9,16 @@ import { UserType } from "../../../../types";
 interface HeaderProps {
   children?: JSX.Element;
   user?: UserType;
+  logoutFunction?: () => void;
 }
 
-export const Header = ({ children, user }: HeaderProps) => {
+export const Header = ({ children, user, logoutFunction }: HeaderProps) => {
   const { white_text } = useTheme();
   return (
     <Container>
       <ContentContainer>
         <InfoContainer>
-          <UserContainer>
+          <UserContainer onPress={logoutFunction}>
             <UserPicture
               source={{
                 uri: user?.photo,
@@ -60,7 +61,7 @@ const InfoContainer = styled.View`
   width: ${Sizes.horizontalScale(317)}px;
 `;
 
-const UserContainer = styled.View`
+const UserContainer = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
 `;
